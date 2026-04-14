@@ -1,3 +1,21 @@
+<div align="center">
+  <h3>⚠️ Deprecation Notice ⚠️</h3>
+</div>
+
+The **Catalog** project has been deprecated and is no longer under active development or maintenance.
+Existing users may continue to use it at their own discretion, but no further updates or support will be provided.
+
+For new work, consider alternatives below (depending on your goals — component “playgrounds”, design-system docs, or UI documentation).
+
+- [**Storybook**](https://storybook.js.org/) — The most widely used UI component explorer with a rich ecosystem of addons. Great for React, Vue, and other frameworks.
+- [**Ladle**](https://ladle.dev/) — Lightweight, fast alternative to Storybook built on Vite. Minimal configuration, simple setup.
+- [**Zeroheight**](https://zeroheight.com/) — Design-system documentation platform used by designers; integrates tightly with Figma and design tokens.
+- [**Supernova**](https://supernova.io/) — Professional design-system management platform combining docs, tokens, and code.
+- [**GitBook**](https://www.gitbook.com/) — Hosted documentation platform with excellent UX and collaboration features. Great for design system and product documentation.
+- [**Docusaurus**](https://docusaurus.io/) — Open-source static site generator for documentation, built with React and Markdown. Excellent for technical or design system sites.
+
+---
+
 ![Catalog Logo](https://interactivethings.github.io/catalog/docs/assets/catalog_logo.svg)
 
 [![Travis](https://img.shields.io/travis/interactivethings/catalog.svg)](https://travis-ci.org/interactivethings/catalog/) [![Downloads](https://img.shields.io/npm/dm/catalog.svg)](https://www.npmjs.com/package/catalog) [![Version](https://img.shields.io/npm/v/catalog.svg)](https://www.npmjs.com/package/catalog) [![License](https://img.shields.io/npm/l/catalog.svg)]()
