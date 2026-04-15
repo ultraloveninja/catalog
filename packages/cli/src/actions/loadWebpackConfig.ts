@@ -2,15 +2,12 @@ import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import ManifestPlugin from "webpack-manifest-plugin";
+import { WebpackManifestPlugin } from "webpack-manifest-plugin";
 
 import getCSSModuleLocalIdent from "react-dev-utils/getCSSModuleLocalIdent";
-import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
 import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin";
-import FriendlyErrorsWebpackPlugin from "friendly-errors-webpack-plugin";
 
 import getClientEnvironment from "../config/env";
-import { link } from "../utils/format";
 
 type LoadWebpackOptions = {
   paths: any;
@@ -60,18 +57,17 @@ const getStyleLoaders = ({
       // package.json
       loader: require.resolve("postcss-loader"),
       options: {
-        // Necessary for external CSS imports to work
-        // https://github.com/facebook/create-react-app/issues/2677
-        ident: "postcss",
-        plugins: () => [
-          require("postcss-flexbugs-fixes"),
-          require("postcss-preset-env")({
-            autoprefixer: {
-              flexbox: "no-2009"
-            },
-            stage: 3
-          })
-        ],
+        postcssOptions: {
+          plugins: [
+            require("postcss-flexbugs-fixes"),
+            require("postcss-preset-env")({
+              autoprefixer: {
+                flexbox: "no-2009"
+              },
+              stage: 3
+            })
+          ]
+        },
         sourceMap: !dev && shouldUseSourceMap
       }
     }
@@ -80,6 +76,7 @@ const getStyleLoaders = ({
     loaders.push({
       loader: require.resolve(preProcessor),
       options: {
+        implementation: require("sass"),
         sourceMap: !dev && shouldUseSourceMap
       }
     });
@@ -96,23 +93,7 @@ export default async ({
   const env = getClientEnvironment(paths.publicUrl.replace(/\/$/, ""));
 
   const devPlugins = dev
-    ? [
-        new webpack.HotModuleReplacementPlugin(),
-        // Watcher doesn't work well if you mistype casing in a path so we use
-        // a plugin that prints an error when you attempt to do this.
-        // See https://github.com/facebookincubator/create-react-app/issues/240
-        // new CaseSensitivePathsPlugin(),
-        // If you require a missing module and then `npm install` it, you still have
-        // to restart the development server for Webpack to discover it. This plugin
-        // makes the discovery automatic so you don't have to restart.
-        // See https://github.com/facebookincubator/create-react-app/issues/186
-        new WatchMissingNodeModulesPlugin(paths.appNodeModules),
-        new FriendlyErrorsWebpackPlugin({
-          compilationSuccessInfo: {
-            messages: url ? [`Catalog is running at ${link(url)}`] : []
-          }
-        })
-      ]
+    ? [new webpack.HotModuleReplacementPlugin()]
     : [];
 
   return {
@@ -120,11 +101,9 @@ export default async ({
     devtool: dev ? "cheap-module-source-map" : "source-map",
     bail: dev ? false : true,
     entry: {
-      catalog: [require.resolve("react-app-polyfill/ie11")]
-        .concat(
-          dev ? [require.resolve("react-dev-utils/webpackHotDevClient")] : []
-        )
-        .concat(paths.catalogIndexJs)
+      catalog: [require.resolve("react-app-polyfill/ie11")].concat(
+        paths.catalogIndexJs
+      )
     },
     output: {
       path: paths.catalogBuildDir,
@@ -161,10 +140,14 @@ export default async ({
             // A missing `test` is equivalent to a match.
             {
               test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-              loader: require.resolve("url-loader"),
-              options: {
-                limit: 10000,
-                name: "static/media/[name].[hash:8].[ext]"
+              type: "asset",
+              parser: {
+                dataUrlCondition: {
+                  maxSize: 10000
+                }
+              },
+              generator: {
+                filename: "static/media/[name].[contenthash:8][ext]"
               }
             },
             // Process JS with Babel.
@@ -181,7 +164,7 @@ export default async ({
                       require.resolve("babel-preset-react-app"),
                       require.resolve("@catalog/babel-preset")
                     ],
-                cacheDirectory: true
+                cacheDirectory: false
               }
             },
             // "postcss" loader applies autoprefixer to our CSS.
@@ -215,8 +198,9 @@ export default async ({
                 cssOptions: {
                   importLoaders: 1,
                   sourceMap: !dev && shouldUseSourceMap,
-                  modules: true,
-                  getLocalIdent: getCSSModuleLocalIdent
+                  modules: {
+                    getLocalIdent: getCSSModuleLocalIdent
+                  }
                 },
                 dev
               })
@@ -249,8 +233,9 @@ export default async ({
                 cssOptions: {
                   importLoaders: 2,
                   sourceMap: !dev && shouldUseSourceMap,
-                  modules: true,
-                  getLocalIdent: getCSSModuleLocalIdent
+                  modules: {
+                    getLocalIdent: getCSSModuleLocalIdent
+                  }
                 },
                 preProcessor: "sass-loader",
                 dev
@@ -258,13 +243,13 @@ export default async ({
             },
             {
               test: /\.md$/,
-              loaders: [require.resolve("@catalog/markdown-loader")]
+              loader: require.resolve("@catalog/markdown-loader")
             },
             {
               exclude: [/\.mjs$/, /\.js$/, /\.html$/, /\.json$/, /\.md$/],
-              loader: require.resolve("file-loader"),
-              options: {
-                name: "static/media/[name].[hash:8].[ext]"
+              type: "asset/resource",
+              generator: {
+                filename: "static/media/[name].[contenthash:8][ext]"
               }
             }
           ]
@@ -280,7 +265,7 @@ export default async ({
             filename: "static/css/[name].[contenthash:8].css",
             chunkFilename: "static/css/[name].[contenthash:8].chunk.css"
           }),
-          new ManifestPlugin({
+          new WebpackManifestPlugin({
             fileName: "asset-manifest.json"
           })
         ]
@@ -309,11 +294,6 @@ export default async ({
 
       ...devPlugins
     ]),
-    node: {
-      fs: "empty",
-      net: "empty",
-      tls: "empty"
-    },
     performance: {
       hints: false
     },
@@ -333,7 +313,6 @@ export default async ({
             },
             compress: {
               ecma: 5,
-              warnings: false,
               // Disabled because of an issue with Uglify breaking seemingly valid code:
               // https://github.com/facebook/create-react-app/issues/2376
               // Pending further investigation:
@@ -358,10 +337,7 @@ export default async ({
           },
           // Use multi-process parallel running to improve the build speed
           // Default number of concurrent runs: os.cpus().length - 1
-          parallel: true,
-          // Enable file caching
-          cache: true,
-          sourceMap: shouldUseSourceMap
+          parallel: true
         })
       ],
       // Automatically split vendor and commons
