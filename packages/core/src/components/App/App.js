@@ -1,6 +1,6 @@
 import React, { Children, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useCatalog } from "../CatalogContext";
+import { useCatalog } from "../CatalogRuntimeContext";
 
 import AppLayout from "./AppLayout";
 import Menu from "../Menu/Menu";

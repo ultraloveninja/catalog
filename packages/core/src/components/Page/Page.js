@@ -4,7 +4,7 @@ import renderMarkdown from "../../markdown/renderMarkdown";
 import seqKey from "../../utils/seqKey";
 import MarkdownSpecimen from "../Specimen/MarkdownSpecimen";
 import { css } from "../../emotion";
-import { useCatalog } from "../CatalogContext";
+import { useCatalog } from "../CatalogRuntimeContext";
 
 const pageStyle = {
   boxSizing: "border-box",

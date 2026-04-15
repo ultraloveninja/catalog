@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import Link from "./Link";
 import { css } from "../../emotion";
-import { useCatalog } from "../CatalogContext";
+import { useCatalog } from "../CatalogRuntimeContext";
 
 const style = theme => ({
   headingLink: {

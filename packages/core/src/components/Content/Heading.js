@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import HeadingLink from "../Link/HeadingLink";
 import { heading } from "../../styles/typography";
 import { css } from "../../emotion";
-import { useCatalog } from "../CatalogContext";
+import { useCatalog } from "../CatalogRuntimeContext";
 
 const HeadingWithLink = ({ level, text, slug, catalog: { theme } }) => {
   const tag = "h" + level;

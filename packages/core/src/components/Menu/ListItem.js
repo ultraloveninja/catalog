@@ -5,7 +5,7 @@ import { pageShape, pagesShape } from "../../CatalogPropTypes";
 
 import Link from "../Link/Link";
 import { text } from "../../styles/typography";
-import { useCatalogRouter } from "../CatalogContext";
+import { useCatalogRouter } from "../CatalogRuntimeContext";
 
 const baseLinkStyle = {
   background: "none",

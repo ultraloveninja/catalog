@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import FrameComponent from "./FrameComponent";
 import { css } from "../../emotion";
-import { useCatalog } from "../CatalogContext";
+import { useCatalog } from "../CatalogRuntimeContext";
 
 const frameStyle = {
   width: "100%",

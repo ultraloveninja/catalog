@@ -4,7 +4,7 @@ import "raf/polyfill";
 import React, { useCallback, useEffect, useRef } from "react";
 import Page from "./Page";
 import runscript from "../../utils/runscript";
-import { useCatalog } from "../CatalogContext";
+import { useCatalog } from "../CatalogRuntimeContext";
 
 const renderStyles = styles => {
   return styles.map((src, i) => (

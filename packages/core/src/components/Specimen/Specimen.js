@@ -8,7 +8,7 @@ import {
   parseSpecimenBody,
   parseSpecimenYamlBody
 } from "../../utils/parseSpecimenBody";
-import { useCatalog } from "../CatalogContext";
+import { useCatalog } from "../CatalogRuntimeContext";
 
 export default function Specimen(
   mapBodyToProps,

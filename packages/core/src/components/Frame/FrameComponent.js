@@ -7,57 +7,43 @@ Original https://github.com/ryanseddon/react-frame-component/
 
 import React, { Component } from "react";
 import { css } from "../../emotion";
-import {
-  unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer,
-  unmountComponentAtNode
-} from "react-dom"; // eslint-disable-line camelcase
+import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 import raf from "raf";
-
-const hasConsole = typeof window !== "undefined" && window.console;
-const noop = () => {};
-let swallowInvalidHeadWarning = noop;
-let resetWarnings = noop;
-
-if (hasConsole) {
-  const originalError = console.error; // eslint-disable-line no-console
-  // Rendering a <head> into a body is technically invalid although it
-  // works. We swallow React's validateDOMNesting warning if that is the
-  // message to avoid confusion
-  swallowInvalidHeadWarning = () => {
-    // eslint-disable-next-line no-console
-    console.error = msg => {
-      if (/<head>/.test(msg)) return;
-      originalError.call(console, msg);
-    };
-  };
-  resetWarnings = () => {
-    console.error = originalError; // eslint-disable-line no-console
-  };
-}
 
 class FrameComponent extends Component {
   constructor() {
     super();
-    this.renderFrameContents = this.renderFrameContents.bind(this);
+    this.state = {
+      mountNode: null
+    };
+    this.isUnmounting = false;
+    this.setupTimer = null;
+    this.setupFrameDocument = this.setupFrameDocument.bind(this);
+    this.scheduleOnRender = this.scheduleOnRender.bind(this);
   }
 
   componentDidMount() {
-    this.renderFrameContents();
+    this.setupFrameDocument();
   }
 
   componentDidUpdate() {
-    this.renderFrameContents();
+    if (!this.state.mountNode) {
+      this.setupFrameDocument();
+      return;
+    }
+    this.scheduleOnRender();
   }
 
   componentWillUnmount() {
-    const doc = this.iframe.contentDocument;
-    if (doc) {
-      unmountComponentAtNode(doc.body);
+    this.isUnmounting = true;
+    if (this.setupTimer) {
+      clearTimeout(this.setupTimer);
+      this.setupTimer = null;
     }
   }
 
-  renderFrameContents() {
+  setupFrameDocument() {
     if (!this.iframe) {
       return;
     }
@@ -65,15 +51,6 @@ class FrameComponent extends Component {
     const doc = this.iframe.contentDocument;
 
     if (doc && doc.readyState === "complete") {
-      const contents = (
-        <div>
-          {this.props.head}
-          {this.props.children}
-        </div>
-      );
-
-      // React warns when you render directly into the body since browser
-      // extensions also inject into the body and can mess up React.
       doc.body.innerHTML = "<div></div>";
       doc.head.innerHTML = "";
 
@@ -90,29 +67,44 @@ class FrameComponent extends Component {
         doc.head.appendChild(s.cloneNode(true));
       });
 
-      swallowInvalidHeadWarning();
-      renderSubtreeIntoContainer(this, contents, doc.body.firstChild, () => {
-        if (this.props.onRender) {
-          raf(() => {
-            this.props.onRender(doc.body.firstChild);
-          });
+      if (!this.isUnmounting) {
+        this.setState({ mountNode: doc.body.firstChild });
+      }
+    } else {
+      this.setupTimer = setTimeout(this.setupFrameDocument, 0);
+    }
+  }
+
+  scheduleOnRender() {
+    if (this.props.onRender && this.state.mountNode) {
+      raf(() => {
+        if (!this.isUnmounting && this.state.mountNode) {
+          this.props.onRender(this.state.mountNode);
         }
       });
-      resetWarnings();
-    } else {
-      setTimeout(this.renderFrameContents, 0);
     }
   }
 
   render() {
     const { style } = this.props;
+    const { mountNode } = this.state;
+    const contents = (
+      <div>
+        {this.props.head}
+        {this.props.children}
+      </div>
+    );
+
     return (
-      <iframe
-        ref={el => {
-          this.iframe = el;
-        }}
-        className={css(style)}
-      />
+      <>
+        <iframe
+          ref={el => {
+            this.iframe = el;
+          }}
+          className={css(style)}
+        />
+        {mountNode ? createPortal(contents, mountNode) : null}
+      </>
     );
   }
 }

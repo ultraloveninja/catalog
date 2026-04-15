@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
-import React, { Children, createContext, useContext } from "react";
+import React, { Children } from "react";
 import App from "./App/App";
+import { CatalogRuntimeContext } from "./CatalogRuntimeContext";
 
 const fallbackPathRe = /\*$/;
 const stripTrailingSlash = path =>
@@ -19,21 +20,6 @@ const isActivePath = (routePath, pathname) => {
 
   return stripTrailingSlash(routePath) === stripTrailingSlash(pathname);
 };
-
-const CatalogRuntimeContext = createContext(null);
-
-const useCatalogRuntimeContext = () => {
-  const contextValue = useContext(CatalogRuntimeContext);
-  if (!contextValue) {
-    throw new Error("Catalog runtime context is not available.");
-  }
-
-  return contextValue;
-};
-
-export const useCatalog = () => useCatalogRuntimeContext().catalog;
-
-export const useCatalogRouter = () => useCatalogRuntimeContext().router;
 
 const CatalogContextProvider = ({ configuration, location, children }) => {
   const {

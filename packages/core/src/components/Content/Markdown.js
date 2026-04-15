@@ -3,7 +3,7 @@ import styled from "../../styled";
 import { text, getFontSize } from "../../styles/typography";
 import BaseLink from "../Link/Link";
 import { css } from "../../emotion";
-import { useCatalog } from "../CatalogContext";
+import { useCatalog } from "../CatalogRuntimeContext";
 
 const baseListStyle = {
   width: "100%",

@@ -1,6 +1,6 @@
 import React from "react";
 import { css, cx } from "./emotion";
-import { useCatalog } from "./components/CatalogContext";
+import { useCatalog } from "./components/CatalogRuntimeContext";
 
 const styled = (tag, styles) => {
   // eslint-disable-next-line react/prop-types

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link as RouterLink, NavLink } from "react-router-dom";
 import { parsePath, isInternalPath, getPublicPath } from "../../utils/path";
-import { useCatalog } from "../CatalogContext";
+import { useCatalog } from "../CatalogRuntimeContext";
 
 const Link = ({ to, className, activeClassName, onlyActiveOnIndex, ...rest }) => {
   const catalog = useCatalog();
