@@ -77,10 +77,23 @@ export const DefaultResponsiveSizes: ConfigResponsiveSize[];
 
 // Functions
 
+export interface ConfigureRoutesChildRoute {
+  path: string;
+  component: React.ComponentType<{ location: any }>;
+}
+
+export interface ConfigureRoutesResult {
+  component: React.ComponentType<{
+    children: React.ReactElement<any>;
+    location: any;
+  }>;
+  childRoutes: ConfigureRoutesChildRoute[];
+}
+
 export function render(config: Config, element: HTMLElement): void;
 export function configure(config: Config): any;
-export function configureRoutes(config: Config): any;
-export function configureJSXRoutes(config: Config): any;
+export function configureRoutes(config: Config): ConfigureRoutesResult;
+export function configureJSXRoutes(config: Config): React.ReactElement<any>;
 
 export function pageLoader(
   f:
@@ -96,7 +109,7 @@ export class Page extends React.Component {}
 export function markdown(
   strings: TemplateStringsArray,
   ...interpolations: any[]
-): JSX.Element;
+): React.ReactElement;
 
 // Specimens
 
@@ -104,6 +117,7 @@ export interface SpecimenProps {
   span?: 1 | 2 | 3 | 4 | 5 | 6;
   rawBody?: string;
   rawOptions?: string;
+  children?: React.ReactNode;
 }
 
 export interface AudioSpecimenProps {
@@ -235,4 +249,4 @@ export class VideoSpecimen extends React.Component<
   SpecimenProps & VideoSpecimenProps
 > {}
 
-export const Markdown: { [key: string]: (props: any) => JSX.Element };
+export const Markdown: { [key: string]: (props: any) => React.ReactElement };

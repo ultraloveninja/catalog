@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "../../styled";
 import { text, getFontSize } from "../../styles/typography";
-import { catalogShape } from "../../CatalogPropTypes";
 import BaseLink from "../Link/Link";
 import { css } from "../../emotion";
+import { useCatalog } from "../CatalogContext";
 
 const baseListStyle = {
   width: "100%",
@@ -83,7 +83,10 @@ export const Image = styled("img", {
   maxWidth: "100%"
 });
 
-export const Link = (props, { catalog: { theme } }) => {
+export const Link = props => {
+  const {
+    theme
+  } = useCatalog();
   const baseLinkStyle = {
     color: theme.linkColor,
     transition: "none",
@@ -104,8 +107,4 @@ export const Link = (props, { catalog: { theme } }) => {
       {...props}
     />
   );
-};
-
-Link.contextTypes = {
-  catalog: catalogShape
 };

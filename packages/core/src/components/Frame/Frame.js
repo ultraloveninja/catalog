@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-import React, { Component } from "react";
-import { catalogShape } from "../../CatalogPropTypes";
+import React, { useState } from "react";
 import FrameComponent from "./FrameComponent";
 import { css } from "../../emotion";
+import { useCatalog } from "../CatalogContext";
 
 const frameStyle = {
   width: "100%",
@@ -19,67 +19,69 @@ const renderStyles = styles => {
   ));
 };
 
-export default class Frame extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
+const Frame = ({
+  children,
+  width,
+  parentWidth,
+  scrolling,
+  background,
+  height: propHeight
+}) => {
+  const [contentHeight, setContentHeight] = useState(null);
+  const {
+    page: { styles }
+  } = useCatalog();
+  const height = contentHeight || propHeight;
+  const autoHeight = !propHeight;
+  const scale = Math.min(1, parentWidth / width);
+  const scaledHeight = autoHeight ? height : height * scale;
 
-  render() {
-    const { children, width, parentWidth, scrolling, background } = this.props;
-    const { catalog: { page: { styles } } } = this.context;
-    const height = this.state.height || this.props.height;
-    const autoHeight = !this.props.height;
-    const scale = Math.min(1, parentWidth / width);
-    const scaledHeight = autoHeight ? height : height * scale;
-
-    return (
+  return (
+    <div
+      className={css({
+        lineHeight: 0,
+        width: parentWidth,
+        height: scaledHeight
+      })}
+    >
       <div
-        className={css({
-          lineHeight: 0,
-          width: parentWidth,
-          height: scaledHeight
-        })}
+        style={{
+          width: width,
+          height: height,
+          transformOrigin: "0% 0%",
+          transform: `scale( ${scale} )`,
+          overflow: "hidden"
+        }}
       >
-        <div
+        <FrameComponent
           style={{
-            width: width,
-            height: height,
-            transformOrigin: "0% 0%",
-            transform: `scale( ${scale} )`,
-            overflow: "hidden"
+            ...frameStyle,
+            background: background,
+            overflow: scrolling ? "auto" : "hidden"
           }}
-        >
-          <FrameComponent
-            style={{
-              ...frameStyle,
-              background: background,
-              overflow: scrolling ? "auto" : "hidden"
-            }}
-            head={[
-              <style key="stylereset">
-                {"html,body{margin:0;padding:0;}"}
-              </style>,
-              ...renderStyles(styles)
-            ]}
-            onRender={
-              autoHeight
-                ? content => {
-                    const contentHeight = content.offsetHeight;
-                    if (contentHeight !== height) {
-                      this.setState({ height: contentHeight });
-                    }
+          head={[
+            <style key="stylereset">
+              {"html,body{margin:0;padding:0;}"}
+            </style>,
+            ...renderStyles(styles)
+          ]}
+          onRender={
+            autoHeight
+              ? content => {
+                  const nextContentHeight = content.offsetHeight;
+                  if (nextContentHeight !== height) {
+                    setContentHeight(nextContentHeight);
                   }
-                : () => null
-            }
-          >
-            {children}
-          </FrameComponent>
-        </div>
+                }
+              : () => null
+          }
+        >
+          {children}
+        </FrameComponent>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 Frame.propTypes = {
   children: PropTypes.element,
@@ -90,6 +92,4 @@ Frame.propTypes = {
   background: PropTypes.string
 };
 
-Frame.contextTypes = {
-  catalog: catalogShape.isRequired
-};
+export default Frame;

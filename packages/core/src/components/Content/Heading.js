@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import HeadingLink from "../Link/HeadingLink";
-import { catalogShape } from "../../CatalogPropTypes";
 import { heading } from "../../styles/typography";
 import { css } from "../../emotion";
+import { useCatalog } from "../CatalogContext";
 
 const HeadingWithLink = ({ level, text, slug, catalog: { theme } }) => {
   const tag = "h" + level;
@@ -39,21 +39,19 @@ const PlainHeading = ({ level, text }) => {
   return React.createElement(tag, null, text);
 };
 
-const Heading = ({ level, text, slug }, { catalog }) =>
-  slug ? (
+const Heading = ({ level, text, slug }) => {
+  const catalog = useCatalog();
+  return slug ? (
     <HeadingWithLink level={level} text={text} slug={slug} catalog={catalog} />
   ) : (
     <PlainHeading level={level} text={text} catalog={catalog} />
   );
+};
 
 Heading.propTypes = HeadingWithLink.propTypes = PlainHeading.propTypes = {
   level: PropTypes.oneOf([1, 2, 3, 4, 5, 6]).isRequired,
   text: PropTypes.array.isRequired,
   slug: PropTypes.string
-};
-
-Heading.contextTypes = {
-  catalog: catalogShape.isRequired
 };
 
 export default Heading;

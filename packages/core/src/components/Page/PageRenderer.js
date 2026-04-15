@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import "raf/polyfill";
 
-import React, { PureComponent } from "react";
-import { catalogShape } from "../../CatalogPropTypes";
+import React, { useCallback, useEffect, useRef } from "react";
 import Page from "./Page";
 import runscript from "../../utils/runscript";
+import { useCatalog } from "../CatalogContext";
 
 const renderStyles = styles => {
   return styles.map((src, i) => (
@@ -15,48 +15,16 @@ const renderStyles = styles => {
 const renderContent = Content =>
   typeof Content === "string" ? <Page>{Content}</Page> : <Content />;
 
-class PageRenderer extends PureComponent {
-  constructor() {
-    super();
-    this.jump = this.jump.bind(this);
-    this.jumpTimeout = null;
-  }
+const PageRenderer = ({ content, location }) => {
+  const {
+    page: { styles, scripts }
+  } = useCatalog();
+  const jumpTimeout = useRef(null);
 
-  componentDidMount() {
-    this.context.catalog.page.scripts.forEach(runscript);
-    this.jump();
-  }
-
-  componentDidUpdate() {
-    this.context.catalog.page.scripts.forEach(runscript);
-    this.jump();
-  }
-
-  componentWillUnmount() {
-    if (this.jumpTimeout !== null) {
-      cancelAnimationFrame(this.jumpTimeout);
-      this.jumpTimeout = null;
-    }
-  }
-
-  jump() {
-    const { location: { query: { a }, hash } } = this.props;
-
-    // Hash is always defined, but may be an empty string. But the query param
-    // is indeed optional and may be undefined. We do not want to be jumping
-    // to the '#undefined' selector.
-
-    if (hash !== "") {
-      this.jumpToSelector(hash);
-    } else if (a !== undefined && a !== "") {
-      this.jumpToSelector(`#${a}`);
-    }
-  }
-
-  jumpToSelector(selector) {
-    if (this.jumpTimeout !== null) {
-      cancelAnimationFrame(this.jumpTimeout);
-      this.jumpTimeout = null;
+  const jumpToSelector = useCallback(selector => {
+    if (jumpTimeout.current !== null) {
+      cancelAnimationFrame(jumpTimeout.current);
+      jumpTimeout.current = null;
     }
 
     // Don't freak out when hash is not a valid selector (e.g. #/foo)
@@ -64,35 +32,59 @@ class PageRenderer extends PureComponent {
       const el = document.querySelector(selector);
       if (el) {
         // Defer scrolling by one tick (when the page has completely rendered)
-        this.jumpTimeout = requestAnimationFrame(() => {
-          this.jumpTimeout = null;
+        jumpTimeout.current = requestAnimationFrame(() => {
+          jumpTimeout.current = null;
           el.scrollIntoView();
         });
       }
     } catch (e) {
       // eslint-disable-line no-empty
     }
-  }
+  }, []);
 
-  render() {
-    const { content } = this.props;
-    const { catalog: { page: { styles } } } = this.context;
-    return (
-      <div>
-        {renderStyles(styles)}
-        {renderContent(content)}
-      </div>
-    );
-  }
-}
+  const jump = useCallback(() => {
+    const {
+      hash,
+      search
+    } = location;
+    const a = new URLSearchParams(search).get("a");
+
+    // Hash is always defined, but may be an empty string. But the query param
+    // is indeed optional and may be undefined. We do not want to be jumping
+    // to the '#undefined' selector.
+
+    if (hash !== "") {
+      jumpToSelector(hash);
+    } else if (a !== null && a !== "") {
+      jumpToSelector(`#${a}`);
+    }
+  }, [jumpToSelector, location]);
+
+  useEffect(() => {
+    scripts.forEach(runscript);
+    jump();
+  }, [scripts, jump]);
+
+  useEffect(() => {
+    return () => {
+      if (jumpTimeout.current !== null) {
+        cancelAnimationFrame(jumpTimeout.current);
+        jumpTimeout.current = null;
+      }
+    };
+  }, []);
+
+  return (
+    <div>
+      {renderStyles(styles)}
+      {renderContent(content)}
+    </div>
+  );
+};
 
 PageRenderer.propTypes = {
   content: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
   location: PropTypes.object.isRequired
-};
-
-PageRenderer.contextTypes = {
-  catalog: catalogShape.isRequired
 };
 
 export default PageRenderer;

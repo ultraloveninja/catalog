@@ -22,7 +22,7 @@ The `Catalog` component creates routes and renders React Router with a few prese
 ```code|lang-jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router} from 'react-router';
+import {BrowserRouter, Routes, Route, useLocation} from 'react-router-dom';
 import {configureRoutes} from 'catalog';
 
 const catalogRoutes = configureRoutes({
@@ -31,14 +31,42 @@ const catalogRoutes = configureRoutes({
   pages: [/* ... */]
 });
 
-const routes = [
-  catalogRoutes,
-  // other routes ...
-];
+const CatalogRoutedPage = ({PageComponent}) => {
+  const location = useLocation();
+  return <PageComponent location={location} />;
+};
 
+const CatalogLayout = catalogRoutes.component;
+
+const AppRoutes = () => {
+  const location = useLocation();
+  return (
+    <CatalogLayout location={location}>
+      <Routes>
+        {catalogRoutes.childRoutes.map(route => (
+          <Route
+            key={route.path}
+            path={route.path}
+            element={<CatalogRoutedPage PageComponent={route.component} />}
+          />
+        ))}
+        {/* other routes ... */}
+      </Routes>
+    </CatalogLayout>
+  );
+};
 
 ReactDOM.render(
-  <Router routes={routes} />,
+  <BrowserRouter>
+    <AppRoutes />
+  </BrowserRouter>,
   document.getElementById('app')
 );
 ```
+
+`configureRoutes` returns a React Router v7-friendly object:
+
+- `component`: Catalog layout wrapper component. Pass it the current `location`.
+- `childRoutes`: route descriptors with `{ path, component }`. Each `component` expects `{ location }`.
+
+For JSX-first route composition, use `configureJSXRoutes(config)` and render the returned `<Route />` subtree directly.

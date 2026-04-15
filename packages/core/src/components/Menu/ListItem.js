@@ -5,6 +5,7 @@ import { pageShape, pagesShape } from "../../CatalogPropTypes";
 
 import Link from "../Link/Link";
 import { text } from "../../styles/typography";
+import { useCatalogRouter } from "../CatalogContext";
 
 const baseLinkStyle = {
   background: "none",
@@ -87,7 +88,8 @@ const style = theme => {
   };
 };
 
-const NestedList = ({ theme, pages, title }, { router }) => {
+const NestedList = ({ theme, pages, title }) => {
+  const router = useCatalogRouter();
   const collapsed = !pages
     .map(d => d.path && router.isActive(d.path))
     .filter(Boolean).length;
@@ -122,10 +124,6 @@ NestedList.propTypes = {
   pages: pagesShape.isRequired,
   title: PropTypes.string.isRequired,
   theme: PropTypes.object.isRequired
-};
-
-NestedList.contextTypes = {
-  router: PropTypes.object.isRequired
 };
 
 class ListItem extends React.Component {

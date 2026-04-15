@@ -1,11 +1,12 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { css, cx } from "./emotion";
+import { useCatalog } from "./components/CatalogContext";
 
 const styled = (tag, styles) => {
   // eslint-disable-next-line react/prop-types
-  const Styled = ({ className, ...props }, { catalog }) =>
-    React.createElement(tag, {
+  const Styled = ({ className, ...props }) => {
+    const catalog = useCatalog();
+    return React.createElement(tag, {
       ...props,
       className: cx(
         css(typeof styles === "function" ? styles(props, catalog) : styles, {
@@ -14,9 +15,9 @@ const styled = (tag, styles) => {
         className
       )
     });
+  };
 
   Styled.displayName = `Styled.${tag}`;
-  Styled.contextTypes = { catalog: PropTypes.object.isRequired };
 
   return Styled;
 };

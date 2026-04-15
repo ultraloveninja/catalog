@@ -1,74 +1,101 @@
 import PropTypes from "prop-types";
-import React, { Component, Children } from "react";
+import React, { Children, createContext, useContext } from "react";
 import App from "./App/App";
-import { catalogShape } from "../CatalogPropTypes";
 
 const fallbackPathRe = /\*$/;
+const stripTrailingSlash = path =>
+  path.length > 1 ? path.replace(/\/+$/, "") : path;
 
-class CatalogContext extends Component {
-  getChildContext() {
-    const {
-      title,
+const isActivePath = (routePath, pathname) => {
+  if (!routePath) {
+    return false;
+  }
+
+  if (fallbackPathRe.test(routePath)) {
+    const routeBase = stripTrailingSlash(routePath.replace(/\*$/, ""));
+    const current = stripTrailingSlash(pathname);
+    return routeBase === "" || current.indexOf(routeBase) === 0;
+  }
+
+  return stripTrailingSlash(routePath) === stripTrailingSlash(pathname);
+};
+
+const CatalogRuntimeContext = createContext(null);
+
+const useCatalogRuntimeContext = () => {
+  const contextValue = useContext(CatalogRuntimeContext);
+  if (!contextValue) {
+    throw new Error("Catalog runtime context is not available.");
+  }
+
+  return contextValue;
+};
+
+export const useCatalog = () => useCatalogRuntimeContext().catalog;
+
+export const useCatalogRouter = () => useCatalogRuntimeContext().router;
+
+const CatalogContextProvider = ({ configuration, location, children }) => {
+  const {
+    title,
+    theme,
+    responsiveSizes,
+    logoSrc,
+    pages,
+    pageTree,
+    specimens,
+    basePath,
+    publicUrl,
+    useBrowserHistory
+  } = configuration;
+  const activePage =
+    pages.find(p => isActivePath(p.path, location.pathname)) ||
+    pages.find(p => fallbackPathRe.test(p.path));
+
+  const contextValue = {
+    catalog: {
+      page: activePage,
+      getSpecimen: specimen => specimens[specimen],
       theme,
       responsiveSizes,
-      logoSrc,
-      pages,
+      title,
+      pages: pages.filter(p => !p.hideFromMenu),
+      pagePaths: new Set(pages.map(p => p.path)), // Used for internal link lookup
       pageTree,
-      specimens,
       basePath,
       publicUrl,
-      useBrowserHistory
-    } = this.props.configuration;
-    const { router } = this.context;
-    return {
-      catalog: {
-        page: pages.find(
-          p => router.isActive(p.path) || fallbackPathRe.test(p.path)
-        ),
-        getSpecimen: specimen => specimens[specimen],
-        theme,
-        responsiveSizes,
-        title,
-        pages: pages.filter(p => !p.hideFromMenu),
-        pagePaths: new Set(pages.map(p => p.path)), // Used for internal link lookup
-        pageTree,
-        basePath,
-        publicUrl,
-        logoSrc,
-        useBrowserHistory
-      }
-    };
-  }
+      logoSrc,
+      useBrowserHistory,
+      currentPath: location.pathname
+    },
+    router: {
+      isActive: path => isActivePath(path, location.pathname)
+    }
+  };
 
-  render() {
-    const { children } = this.props;
-    return Children.only(children);
-  }
-}
+  return (
+    <CatalogRuntimeContext.Provider value={contextValue}>
+      {Children.only(children)}
+    </CatalogRuntimeContext.Provider>
+  );
+};
 
-CatalogContext.propTypes = {
+CatalogContextProvider.propTypes = {
   configuration: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
   children: PropTypes.element.isRequired
 };
 
-CatalogContext.contextTypes = {
-  // From react-router
-  router: PropTypes.object.isRequired
-};
-
-CatalogContext.childContextTypes = {
-  catalog: catalogShape.isRequired
-};
-
 export default function createCatalogContext(config) {
-  const ConfiguredCatalogContext = ({ children }) => (
-    <CatalogContext configuration={config}>
+  const ConfiguredCatalogContext = ({ children, location }) => (
+    <CatalogContextProvider configuration={config} location={location}>
       <App>{children}</App>
-    </CatalogContext>
+    </CatalogContextProvider>
   );
 
   ConfiguredCatalogContext.propTypes = {
-    children: PropTypes.element.isRequired
+    children: PropTypes.element.isRequired,
+    location: PropTypes.object.isRequired
   };
 
   return ConfiguredCatalogContext;
