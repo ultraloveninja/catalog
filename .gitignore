@@ -2,6 +2,7 @@
 node_modules
 /examples/**/build
 /docs/build
+/catalog/
 *.log
 .rpt2_cache
 dist

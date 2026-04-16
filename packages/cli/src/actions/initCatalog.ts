@@ -42,7 +42,12 @@ export default async function initCatalog(
   console.log(chalk.green(`Initialized Catalog in ./${catalogRelDir}/`));
   console.log(
     chalk.dim(
-      `  Next: yarn catalog-start ${catalogRelDir}   (or: npx catalog-start ${catalogRelDir})`
+      `  Next: yarn catalog:start ${catalogRelDir}   (or: node packages/cli/dist/bin/catalog-start.js ${catalogRelDir})`
+    )
+  );
+  console.log(
+    chalk.dim(
+      `  Add react, react-dom, and sass to your app. Imports from "catalog" are resolved from the CLI's bundled library — you do not need the npm package named catalog.`
     )
   );
 }

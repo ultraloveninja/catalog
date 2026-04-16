@@ -5,6 +5,9 @@
   },
   "scripts": {
     "bootstrap": "yarn install",
+    "catalog:init": "node packages/cli/dist/bin/catalog-init.js",
+    "catalog:start": "node packages/cli/dist/bin/catalog-start.js",
+    "catalog:build": "node packages/cli/dist/bin/catalog-build.js",
     "dev": "run-p -l dev:*",
     "dev:lib": "rollup -c rollup.config.js --bundleConfigAsCjs --watch",
     "dev:doc": "yarn workspace @catalog/docs run dev",

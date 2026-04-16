@@ -90,6 +90,16 @@ export default async ({
   url: _url,
   useBabelrc
 }: LoadWebpackOptions): Promise<WebpackConfig> => {
+  // `catalog` on npm is a thin re-export of `@catalog/core`. Resolve the same
+  // library from this CLI install so user apps do not need a registry
+  // `catalog` dependency for dev/build (clone-local / workspace-friendly).
+  const catalogResolved = require("path").resolve(
+    require.resolve("@catalog/core/package.json"),
+    "..",
+    "dist",
+    "catalog.es.js"
+  );
+
   const env = getClientEnvironment(paths.publicUrl.replace(/\/$/, ""));
 
   const devPlugins = dev
@@ -123,7 +133,8 @@ export default async ({
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         "react-native": "react-native-web",
         "babel-standalone": "babel-standalone/babel.min.js",
-        "js-yaml": "js-yaml/dist/js-yaml.min.js"
+        "js-yaml": "js-yaml/dist/js-yaml.min.js",
+        catalog: catalogResolved
       }
     },
     resolveLoader: {
