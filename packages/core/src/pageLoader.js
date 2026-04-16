@@ -77,9 +77,9 @@ PageLoader.propTypes = {
   location: PropTypes.object.isRequired
 };
 
-// eslint-disable-next-line react/display-name
+ 
 export default urlOrComponentPromise => (
-  { location } // eslint-disable-line react/prop-types
+  { location }  
 ) => (
   <PageLoader
     location={location}

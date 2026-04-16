@@ -1,4 +1,4 @@
-const babel = require("rollup-plugin-babel");
+const { babel } = require("@rollup/plugin-babel");
 const pkg = require("./package.json");
 const path = require("path");
 
@@ -14,6 +14,7 @@ module.exports = {
   input: { catalog: path.resolve(__dirname, "src/index.js") },
   plugins: [
     babel({
+      babelHelpers: "bundled",
       exclude: /node_modules/
     })
   ],

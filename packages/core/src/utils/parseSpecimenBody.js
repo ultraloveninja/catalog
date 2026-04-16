@@ -37,7 +37,7 @@ const parseYaml = (str, imports) => {
     };
 
     parsed = safeLoad(str, yamlOptions);
-  } catch (e) {
+  } catch {
     parsed = void 0;
   }
   return typeof parsed === "string" ? void 0 : parsed;

@@ -49,7 +49,7 @@ export default (jsx, imports) => {
   // Check for transform to provide a better error message
   try {
     transform;
-  } catch (error) {
+  } catch {
     return missingTransformError;
   }
 
@@ -57,7 +57,7 @@ export default (jsx, imports) => {
     const importKeys = Object.keys(imports).filter(k => imports[k]);
     const importModules = importKeys.map(k => requireModuleDefault(imports[k]));
     const code = cachedTransform(jsx);
-    // eslint-disable-next-line no-new-func
+     
     const element = new Function("React", ...importKeys, code)(
       React,
       ...importModules

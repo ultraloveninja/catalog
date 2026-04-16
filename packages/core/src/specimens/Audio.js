@@ -12,8 +12,8 @@ class Audio extends React.Component {
     const {
       src,
       title,
-      loop,
-      autoplay,
+      loop = false,
+      autoplay = false,
       catalog,
       catalog: { theme }
     } = this.props;
@@ -59,11 +59,6 @@ Audio.propTypes = {
   title: PropTypes.string,
   loop: PropTypes.bool,
   autoplay: PropTypes.bool
-};
-
-Audio.defaultProps = {
-  loop: false,
-  autoplay: false
 };
 
 export default Specimen()(Audio);

@@ -1,7 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import Catalog from "./components/Catalog";
 
 export default (configuration, element) => {
-  ReactDOM.render(<Catalog {...configuration} />, element);
+  const root = createRoot(element);
+  root.render(<Catalog {...configuration} />);
 };

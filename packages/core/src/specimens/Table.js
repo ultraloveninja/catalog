@@ -108,5 +108,4 @@ Table.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.string)
 };
 
-Table.defaultProps = {};
 export default Specimen(undefined, undefined, { withChildren: false })(Table);

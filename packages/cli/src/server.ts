@@ -1,6 +1,6 @@
 import { exists } from "sander";
-import openBrowser from "react-dev-utils/openBrowser";
-import { choosePort } from "react-dev-utils/WebpackDevServerUtils";
+import choosePort from "./utils/choosePort";
+import openBrowser from "./utils/openBrowser";
 
 import { infoMessageDimmed } from "./utils/format";
 
@@ -34,6 +34,11 @@ export const startServer = async (
   const paths = await loadPaths(catalogSrcDir, "", "/");
 
   const port = await choosePort("0.0.0.0", options.port);
+  if (port === null) {
+    throw new Error(
+      `Could not find a free port starting at ${options.port} (tried 30 ports).`
+    );
+  }
 
   const url =
     (options.https ? "https" : "http") +
@@ -85,11 +90,15 @@ export const startServer = async (
     options.proxy
   );
 
-  openBrowser(url);
+  void openBrowser(url);
 
   return { port, url, devServer };
 };
 
 export const stopServer = async (server: Server) => {
-  server.devServer.close();
+  if (typeof server.devServer.stop === "function") {
+    await server.devServer.stop();
+  } else if (typeof server.devServer.close === "function") {
+    server.devServer.close();
+  }
 };

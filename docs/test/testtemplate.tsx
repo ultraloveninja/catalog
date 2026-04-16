@@ -1,4 +1,3 @@
-import React from "react";
 import { markdown, ReactSpecimen } from "@catalog/core";
 import logo from "../catalog_logo.svg";
 

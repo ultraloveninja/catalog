@@ -26,5 +26,6 @@ export const catalogShape = PropTypes.shape({
   pages: pagesShape.isRequired,
   pageTree: pagesShape.isRequired,
   pagePaths: PropTypes.instanceOf(Set).isRequired,
+  currentPath: PropTypes.string,
   logoSrc: PropTypes.string
 });

@@ -37,8 +37,8 @@ const PageRenderer = ({ content, location }) => {
           el.scrollIntoView();
         });
       }
-    } catch (e) {
-      // eslint-disable-line no-empty
+    } catch {
+      // ignore invalid selectors
     }
   }, []);
 

@@ -33,7 +33,7 @@ class ColorPalette extends React.Component {
     const {
       catalog: { theme },
       colors,
-      horizontal
+      horizontal = false
     } = this.props;
     const styles = {
       container: {
@@ -89,10 +89,6 @@ ColorPalette.propTypes = {
     })
   ).isRequired,
   horizontal: PropTypes.bool
-};
-
-ColorPalette.defaultProps = {
-  horizontal: false
 };
 
 export default Specimen()(ColorPalette);

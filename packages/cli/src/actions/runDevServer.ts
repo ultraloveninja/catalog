@@ -1,7 +1,5 @@
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
-import express from "express";
-import errorOverlayMiddleware from "react-dev-utils/errorOverlayMiddleware";
 
 export default async (
   config: any,
@@ -12,48 +10,51 @@ export default async (
   proxy: void | string
 ): Promise<any> => {
   const compiler = webpack(config);
-  const devServer = new WebpackDevServer(compiler, {
-    compress: true,
-    clientLogLevel: "none",
-    contentBase: [paths.catalogStaticSrcDir, paths.appStaticSrcDir],
-    // By default files from `contentBase` will not trigger a page reload.
-    watchContentBase: true,
-    hot: true,
-    publicPath: config.output.publicPath,
-    quiet: true,
-    disableHostCheck: true,
-    // Reportedly, this avoids CPU overload on some systems.
-    // https://github.com/facebookincubator/create-react-app/issues/293
-    watchOptions: {
-      ignored: /node_modules/
-    },
-    historyApiFallback: {
-      disableDotRule: true,
-      htmlAcceptHeaders: proxy ? ["text/html"] : ["text/html", "*/*"]
-    } as any /* because htmlAcceptHeaders is not documented */,
-    https,
-    host,
-    ...(proxy
-      ? {
-          proxy: {
-            "**": proxy
+  const devServer = new WebpackDevServer(
+    {
+      compress: true,
+      static: [
+        { directory: paths.catalogStaticSrcDir, watch: true },
+        { directory: paths.appStaticSrcDir, watch: true }
+      ],
+      hot: true,
+      devMiddleware: {
+        publicPath: config.output.publicPath
+      },
+      allowedHosts: "all",
+      // Reportedly, this avoids CPU overload on some systems.
+      // https://github.com/facebookincubator/create-react-app/issues/293
+      watchFiles: [paths.catalogStaticSrcDir, paths.appStaticSrcDir],
+      historyApiFallback: {
+        disableDotRule: true,
+        htmlAcceptHeaders: proxy ? ["text/html"] : ["text/html", "*/*"]
+      } as any /* because htmlAcceptHeaders is not documented */,
+      server: https ? "https" : "http",
+      host,
+      ...(proxy
+        ? {
+            proxy: [
+              {
+                context: () => true,
+                target: proxy
+              }
+            ]
           }
+        : {}),
+      client: {
+        logging: "none",
+        overlay: {
+          errors: true,
+          warnings: false
         }
-      : {}),
-    overlay: false,
-    before(app: any) {
-      // Next.js serves static files from /static – which can't be configured with `contentBase` directly
-      // if (framework === "NEXT") {
-      //   app.use("/static", express.static(paths.appStaticSrcDir));
-      // }
-      // This lets us open files from the runtime error overlay.
-      app.use(errorOverlayMiddleware());
-    }
-  });
+      }
+    },
+    compiler
+  );
 
   // Launch WebpackDevServer.
   return new Promise<any>((resolve, reject) => {
-    devServer.listen(port, host, (err: any) => {
+    devServer.startCallback((err?: Error) => {
       if (err) {
         reject(err);
       } else {

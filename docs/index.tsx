@@ -1,5 +1,4 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Catalog, pageLoader } from "catalog";
 import logo from "./catalog_logo.svg";
 
@@ -17,9 +16,9 @@ const pages = [
     title: "Installation",
     pages: [
       {
-        path: "installation/create-catalog",
-        title: "Create Catalog",
-        content: markdownLoader("installation/create-catalog")
+        path: "installation/getting-started",
+        title: "Getting started",
+        content: markdownLoader("installation/getting-started")
       },
       {
         path: "installation/module",
@@ -176,17 +175,20 @@ const pages = [
   }
 ];
 
-ReactDOM.render(
-  <Catalog
-    title="Catalog"
-    useBrowserHistory
-    logoSrc={logo}
-    theme={
-      {
-        // Uses default theme
+const rootElement = document.getElementById("catalog");
+
+if (rootElement) {
+  createRoot(rootElement).render(
+    <Catalog
+      title="Catalog"
+      useBrowserHistory
+      logoSrc={logo}
+      theme={
+        {
+          // Uses default theme
+        }
       }
-    }
-    pages={pages}
-  />,
-  document.getElementById("catalog")
-);
+      pages={pages}
+    />
+  );
+}

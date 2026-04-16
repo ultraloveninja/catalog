@@ -1,8 +1,8 @@
 /**
  * WARNING: Don't use rollup's ES import/export here because otherwise file paths won't resolve correctly
  */
-const babel = require("rollup-plugin-babel");
-const resolve = require("rollup-plugin-node-resolve");
+const { babel } = require("@rollup/plugin-babel");
+const { nodeResolve } = require("@rollup/plugin-node-resolve");
 const path = require("path");
 const fs = require("fs");
 
@@ -26,17 +26,18 @@ module.exports = {
   ],
   external: id => externals.some(d => id.startsWith(d)),
   plugins: [
-    resolve({
+    nodeResolve({
       extensions
     }),
     babel({
+      babelHelpers: "bundled",
       extensions
     }),
     // Make entries executable
     {
-      writeBundle(bundle) {
+      writeBundle(_, bundle) {
         for (let d of Object.values(bundle)) {
-          if (d.isEntry) {
+          if (d.type === "chunk" && d.isEntry) {
             const filePath = path.resolve(__dirname, "dist/bin", d.fileName);
             const mode = fs.statSync(filePath).mode;
             fs.chmodSync(filePath, mode | 0o100); // Same as `chmod u+x`

@@ -1,82 +1,82 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Configuration with component 1`] = `
-Object {
+{
   "__catalogConfig": true,
   "basePath": "/",
-  "pageTree": Array [
-    Object {
+  "pageTree": [
+    {
       "component": [Function],
       "id": 1,
-      "imports": Object {},
+      "imports": {},
       "pages": null,
       "path": "/",
-      "scripts": Array [],
-      "styles": Array [],
+      "scripts": [],
+      "styles": [],
       "superTitle": "Catalog",
       "title": "Overview",
     },
-    Object {
+    {
       "component": [Function],
       "hideFromMenu": true,
       "id": 2,
-      "imports": Object {},
+      "imports": {},
       "path": "/*",
-      "scripts": Array [],
-      "styles": Array [],
+      "scripts": [],
+      "styles": [],
       "superTitle": "Catalog",
       "title": "Page Not Found",
     },
   ],
-  "pages": Array [
-    Object {
+  "pages": [
+    {
       "component": [Function],
       "id": 1,
-      "imports": Object {},
+      "imports": {},
       "index": 0,
       "pages": null,
       "path": "/",
-      "scripts": Array [],
-      "styles": Array [],
+      "scripts": [],
+      "styles": [],
       "superTitle": "Catalog",
       "title": "Overview",
     },
-    Object {
+    {
       "component": [Function],
       "hideFromMenu": true,
       "id": 2,
-      "imports": Object {},
+      "imports": {},
       "path": "/*",
-      "scripts": Array [],
-      "styles": Array [],
+      "scripts": [],
+      "styles": [],
       "superTitle": "Catalog",
       "title": "Page Not Found",
     },
   ],
   "publicUrl": "",
-  "responsiveSizes": Array [
-    Object {
+  "responsiveSizes": [
+    {
       "height": 640,
       "name": "small",
       "width": 360,
     },
-    Object {
+    {
       "height": 768,
       "name": "medium",
       "width": 1024,
     },
-    Object {
+    {
       "height": 900,
       "name": "large",
       "width": 1440,
     },
-    Object {
+    {
       "height": 1080,
       "name": "xlarge",
       "width": 1920,
     },
   ],
-  "specimens": Object {
+  "specimens": {
     "audio": [Function],
     "code": [Function],
     "color": [Function],
@@ -91,7 +91,7 @@ Object {
     "type": [Function],
     "video": [Function],
   },
-  "theme": Object {
+  "theme": {
     "background": "#F9F9F9",
     "baseFontSize": 16,
     "bgDark": "#333333",
@@ -100,23 +100,23 @@ Object {
     "checkerboardPatternDark": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAAAAACoWZBhAAAAFklEQVQI12NQBQF2EGAghQkmwXxSmADZJQiZ2ZZ46gAAAABJRU5ErkJggg==",
     "checkerboardPatternLight": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAAAAACoWZBhAAAAF0lEQVQI12P4BAI/QICBFCaYBPNJYQIAkUZftTbC4sIAAAAASUVORK5CYII=",
     "codeColor": "#00263E",
-    "codeStyles": Object {
-      "function": Object {
+    "codeStyles": {
+      "function": {
         "color": "#FF5555",
       },
-      "keyword": Object {
+      "keyword": {
         "color": "#3F7397",
       },
-      "punctuation": Object {
+      "punctuation": {
         "color": "#535353",
       },
-      "script": Object {
+      "script": {
         "color": "#3F7397",
       },
-      "string": Object {
+      "string": {
         "color": "#00263E",
       },
-      "tag": Object {
+      "tag": {
         "color": "#FF5555",
       },
     },
@@ -143,82 +143,82 @@ Object {
 `;
 
 exports[`Configuration with default theme and specimens 1`] = `
-Object {
+{
   "__catalogConfig": true,
   "basePath": "/",
-  "pageTree": Array [
-    Object {
+  "pageTree": [
+    {
       "id": 1,
-      "imports": Object {},
+      "imports": {},
       "pages": null,
       "path": "/",
-      "scripts": Array [],
+      "scripts": [],
       "src": "overview.md",
-      "styles": Array [],
+      "styles": [],
       "superTitle": "Catalog",
       "title": "Overview",
     },
-    Object {
+    {
       "component": [Function],
       "hideFromMenu": true,
       "id": 2,
-      "imports": Object {},
+      "imports": {},
       "path": "/*",
-      "scripts": Array [],
-      "styles": Array [],
+      "scripts": [],
+      "styles": [],
       "superTitle": "Catalog",
       "title": "Page Not Found",
     },
   ],
-  "pages": Array [
-    Object {
+  "pages": [
+    {
       "id": 1,
-      "imports": Object {},
+      "imports": {},
       "index": 0,
       "pages": null,
       "path": "/",
-      "scripts": Array [],
+      "scripts": [],
       "src": "overview.md",
-      "styles": Array [],
+      "styles": [],
       "superTitle": "Catalog",
       "title": "Overview",
     },
-    Object {
+    {
       "component": [Function],
       "hideFromMenu": true,
       "id": 2,
-      "imports": Object {},
+      "imports": {},
       "path": "/*",
-      "scripts": Array [],
-      "styles": Array [],
+      "scripts": [],
+      "styles": [],
       "superTitle": "Catalog",
       "title": "Page Not Found",
     },
   ],
   "publicUrl": "",
-  "responsiveSizes": Array [
-    Object {
+  "responsiveSizes": [
+    {
       "height": 640,
       "name": "small",
       "width": 360,
     },
-    Object {
+    {
       "height": 768,
       "name": "medium",
       "width": 1024,
     },
-    Object {
+    {
       "height": 900,
       "name": "large",
       "width": 1440,
     },
-    Object {
+    {
       "height": 1080,
       "name": "xlarge",
       "width": 1920,
     },
   ],
-  "specimens": Object {
+  "specimens": {
     "audio": [Function],
     "code": [Function],
     "color": [Function],
@@ -233,7 +233,7 @@ Object {
     "type": [Function],
     "video": [Function],
   },
-  "theme": Object {
+  "theme": {
     "background": "#F9F9F9",
     "baseFontSize": 16,
     "bgDark": "#333333",
@@ -242,23 +242,23 @@ Object {
     "checkerboardPatternDark": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAAAAACoWZBhAAAAFklEQVQI12NQBQF2EGAghQkmwXxSmADZJQiZ2ZZ46gAAAABJRU5ErkJggg==",
     "checkerboardPatternLight": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAAAAACoWZBhAAAAF0lEQVQI12P4BAI/QICBFCaYBPNJYQIAkUZftTbC4sIAAAAASUVORK5CYII=",
     "codeColor": "#00263E",
-    "codeStyles": Object {
-      "function": Object {
+    "codeStyles": {
+      "function": {
         "color": "#FF5555",
       },
-      "keyword": Object {
+      "keyword": {
         "color": "#3F7397",
       },
-      "punctuation": Object {
+      "punctuation": {
         "color": "#535353",
       },
-      "script": Object {
+      "script": {
         "color": "#3F7397",
       },
-      "string": Object {
+      "string": {
         "color": "#00263E",
       },
-      "tag": Object {
+      "tag": {
         "color": "#FF5555",
       },
     },
@@ -285,116 +285,116 @@ Object {
 `;
 
 exports[`Configuration with nested pages 1`] = `
-Object {
+{
   "__catalogConfig": true,
   "basePath": "/",
-  "pageTree": Array [
-    Object {
+  "pageTree": [
+    {
       "id": 1,
-      "imports": Object {},
-      "pages": Array [
-        Object {
+      "imports": {},
+      "pages": [
+        {
           "id": 2,
-          "imports": Object {},
+          "imports": {},
           "pages": null,
           "path": "/foo",
-          "scripts": Array [],
+          "scripts": [],
           "src": "foo.md",
-          "styles": Array [],
+          "styles": [],
           "superTitle": "Overview",
           "title": "Foo",
         },
-        Object {
+        {
           "id": 3,
-          "imports": Object {},
+          "imports": {},
           "pages": null,
           "path": "/bar",
-          "scripts": Array [],
+          "scripts": [],
           "src": "bar.md",
-          "styles": Array [],
+          "styles": [],
           "superTitle": "Overview",
           "title": "Bar",
         },
       ],
       "path": null,
-      "scripts": Array [],
-      "styles": Array [],
+      "scripts": [],
+      "styles": [],
       "superTitle": "Catalog",
       "title": "Overview",
     },
-    Object {
+    {
       "component": [Function],
       "hideFromMenu": true,
       "id": 4,
-      "imports": Object {},
+      "imports": {},
       "path": "/*",
-      "scripts": Array [],
-      "styles": Array [],
+      "scripts": [],
+      "styles": [],
       "superTitle": "Catalog",
       "title": "Page Not Found",
     },
   ],
-  "pages": Array [
-    Object {
+  "pages": [
+    {
       "id": 2,
-      "imports": Object {},
+      "imports": {},
       "index": 0,
       "pages": null,
       "path": "/foo",
-      "scripts": Array [],
+      "scripts": [],
       "src": "foo.md",
-      "styles": Array [],
+      "styles": [],
       "superTitle": "Overview",
       "title": "Foo",
     },
-    Object {
+    {
       "id": 3,
-      "imports": Object {},
+      "imports": {},
       "index": 1,
       "pages": null,
       "path": "/bar",
-      "scripts": Array [],
+      "scripts": [],
       "src": "bar.md",
-      "styles": Array [],
+      "styles": [],
       "superTitle": "Overview",
       "title": "Bar",
     },
-    Object {
+    {
       "component": [Function],
       "hideFromMenu": true,
       "id": 4,
-      "imports": Object {},
+      "imports": {},
       "path": "/*",
-      "scripts": Array [],
-      "styles": Array [],
+      "scripts": [],
+      "styles": [],
       "superTitle": "Catalog",
       "title": "Page Not Found",
     },
   ],
   "publicUrl": "",
-  "responsiveSizes": Array [
-    Object {
+  "responsiveSizes": [
+    {
       "height": 640,
       "name": "small",
       "width": 360,
     },
-    Object {
+    {
       "height": 768,
       "name": "medium",
       "width": 1024,
     },
-    Object {
+    {
       "height": 900,
       "name": "large",
       "width": 1440,
     },
-    Object {
+    {
       "height": 1080,
       "name": "xlarge",
       "width": 1920,
     },
   ],
-  "specimens": Object {
+  "specimens": {
     "audio": [Function],
     "code": [Function],
     "color": [Function],
@@ -409,7 +409,7 @@ Object {
     "type": [Function],
     "video": [Function],
   },
-  "theme": Object {
+  "theme": {
     "background": "#F9F9F9",
     "baseFontSize": 16,
     "bgDark": "#333333",
@@ -418,23 +418,23 @@ Object {
     "checkerboardPatternDark": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAAAAACoWZBhAAAAFklEQVQI12NQBQF2EGAghQkmwXxSmADZJQiZ2ZZ46gAAAABJRU5ErkJggg==",
     "checkerboardPatternLight": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAAAAACoWZBhAAAAF0lEQVQI12P4BAI/QICBFCaYBPNJYQIAkUZftTbC4sIAAAAASUVORK5CYII=",
     "codeColor": "#00263E",
-    "codeStyles": Object {
-      "function": Object {
+    "codeStyles": {
+      "function": {
         "color": "#FF5555",
       },
-      "keyword": Object {
+      "keyword": {
         "color": "#3F7397",
       },
-      "punctuation": Object {
+      "punctuation": {
         "color": "#535353",
       },
-      "script": Object {
+      "script": {
         "color": "#3F7397",
       },
-      "string": Object {
+      "string": {
         "color": "#00263E",
       },
-      "tag": Object {
+      "tag": {
         "color": "#FF5555",
       },
     },

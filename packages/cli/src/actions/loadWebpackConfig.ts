@@ -4,8 +4,8 @@ import TerserPlugin from "terser-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { WebpackManifestPlugin } from "webpack-manifest-plugin";
 
-import getCSSModuleLocalIdent from "react-dev-utils/getCSSModuleLocalIdent";
-import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin";
+import getCSSModuleLocalIdent from "../utils/getCSSModuleLocalIdent";
+import InterpolateHtmlPlugin from "../webpack/InterpolateHtmlPlugin";
 
 import getClientEnvironment from "../config/env";
 
@@ -62,7 +62,7 @@ const getStyleLoaders = ({
             require("postcss-flexbugs-fixes"),
             require("postcss-preset-env")({
               autoprefixer: {
-                flexbox: "no-2009"
+                flexbox: true
               },
               stage: 3
             })
@@ -87,7 +87,7 @@ const getStyleLoaders = ({
 export default async ({
   paths,
   dev,
-  url,
+  url: _url,
   useBabelrc
 }: LoadWebpackOptions): Promise<WebpackConfig> => {
   const env = getClientEnvironment(paths.publicUrl.replace(/\/$/, ""));
@@ -101,9 +101,7 @@ export default async ({
     devtool: dev ? "cheap-module-source-map" : "source-map",
     bail: dev ? false : true,
     entry: {
-      catalog: [require.resolve("react-app-polyfill/ie11")].concat(
-        paths.catalogIndexJs
-      )
+      catalog: paths.catalogIndexJs
     },
     output: {
       path: paths.catalogBuildDir,
@@ -161,7 +159,20 @@ export default async ({
                 presets: useBabelrc
                   ? []
                   : [
-                      require.resolve("babel-preset-react-app"),
+                      [
+                        require.resolve("@babel/preset-env"),
+                        {
+                          bugfixes: true
+                        }
+                      ],
+                      [
+                        require.resolve("@babel/preset-react"),
+                        {
+                          runtime: "automatic",
+                          development: dev
+                        }
+                      ],
+                      require.resolve("@babel/preset-typescript"),
                       require.resolve("@catalog/babel-preset")
                     ],
                 cacheDirectory: false
@@ -303,36 +314,22 @@ export default async ({
         // This is only used in production mode
         new TerserPlugin({
           terserOptions: {
+            ecma: 2020,
             parse: {
-              // we want terser to parse ecma 8 code. However, we don't want it
-              // to apply any minfication steps that turns valid ecma 5 code
-              // into invalid ecma 5 code. This is why the 'compress' and 'output'
-              // sections only apply transformations that are ecma 5 safe
-              // https://github.com/facebook/create-react-app/pull/4234
-              ecma: 8
+              ecma: 2020
             },
             compress: {
-              ecma: 5,
-              // Disabled because of an issue with Uglify breaking seemingly valid code:
-              // https://github.com/facebook/create-react-app/issues/2376
-              // Pending further investigation:
-              // https://github.com/mishoo/UglifyJS2/issues/2011
+              ecma: 2020,
               comparisons: false,
-              // Disabled because of an issue with Terser breaking valid code:
-              // https://github.com/facebook/create-react-app/issues/5250
-              // Pending futher investigation:
-              // https://github.com/terser-js/terser/issues/120
               inline: 2
             },
             mangle: {
-              safari10: true
+              safari10: false
             },
-            output: {
-              ecma: 5,
+            format: {
+              ecma: 2020,
               comments: false,
-              // Turned on because emoji and regex is not minified properly using default
-              // https://github.com/facebook/create-react-app/issues/2488
-              ascii_only: true
+              ascii_only: false
             }
           },
           // Use multi-process parallel running to improve the build speed

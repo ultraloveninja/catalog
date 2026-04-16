@@ -28,6 +28,7 @@ const Page = ({ children }) => {
   const { getSpecimen } = useCatalog();
 
   const getSpecimenKey = seqKey("Specimen");
+  const blocks = React.Children.toArray(children);
 
   return (
     <div
@@ -35,7 +36,7 @@ const Page = ({ children }) => {
         ...pageStyle
       })}
     >
-      {React.Children.map(children, child => {
+      {blocks.map((child, index) => {
         const md =
           typeof child === "string"
             ? renderMarkdown({
@@ -54,7 +55,12 @@ const Page = ({ children }) => {
                 }
               })
             : child;
-        return md;
+
+        return (
+          <React.Fragment key={`page-block-${index}`}>
+            {React.Children.toArray(md)}
+          </React.Fragment>
+        );
       })}
     </div>
   );

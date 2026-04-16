@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import {
   Catalog,
   markdown,
@@ -66,7 +66,8 @@ ${(
 
 `;
 
-ReactDOM.render(<Catalog title="Hello" pages={[]} />, document.body);
+const bodyRoot = createRoot(document.body);
+bodyRoot.render(<Catalog title="Hello" pages={[]} />);
 
 const config: Config = {
   title: "Test",
@@ -120,6 +121,6 @@ const config: Config = {
   ]
 };
 
-ReactDOM.render(<Catalog title="Hello" pages={[]} />, document.body);
+bodyRoot.render(<Catalog title="Hello" pages={[]} />);
 
-ReactDOM.render(<Catalog {...config} />, document.body);
+bodyRoot.render(<Catalog {...config} />);

@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router";
+import { Outlet, Route, useLocation } from "react-router-dom";
 import configure from "./configure";
 import warning from "./utils/warning";
 import requireModuleDefault from "./utils/requireModuleDefault";
@@ -11,14 +11,38 @@ const pageToRoute = ({ path, component, src }) => ({
   path
 });
 
-// eslint-disable-next-line react/prop-types
+const RoutedElement = ({ PageComponent }) => {
+  const location = useLocation();
+  return <PageComponent location={location} />;
+};
+
 const pageToJSXRoute = ({ path, component, src }) => (
   <Route
     key={path}
     path={path}
-    component={component ? requireModuleDefault(component) : pageLoader(src)}
+    element={
+      <RoutedElement
+        PageComponent={
+          component ? requireModuleDefault(component) : pageLoader(src)
+        }
+      />
+    }
   />
 );
+
+const createConfiguredCatalogContextWithOutlet = config => {
+  const ConfiguredCatalogContext = CatalogContext(config);
+  const ConfiguredLayout = () => {
+    const location = useLocation();
+    return (
+      <ConfiguredCatalogContext location={location}>
+        <Outlet />
+      </ConfiguredCatalogContext>
+    );
+  };
+
+  return ConfiguredLayout;
+};
 
 const autoConfigure = config => {
   warning(
@@ -39,8 +63,9 @@ export default config => {
 
 export const configureJSXRoutes = config => {
   const finalConfig = autoConfigure(config);
+  const ConfiguredLayout = createConfiguredCatalogContextWithOutlet(finalConfig);
   return (
-    <Route component={CatalogContext(finalConfig)}>
+    <Route element={<ConfiguredLayout />}>
       {finalConfig.pages.map(pageToJSXRoute)}
     </Route>
   );

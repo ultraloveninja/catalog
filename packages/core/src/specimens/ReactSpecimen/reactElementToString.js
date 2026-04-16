@@ -71,7 +71,7 @@ ${e}`;
   }
 
   const whitespaceBeforeProps =
-    propKeys.length > 1 // eslint-disable-line no-nested-ternary
+    propKeys.length > 1  
       ? `\n${indent}  `
       : propKeys.length === 1 ? " " : "";
   const whitespaceAfterProps = propKeys.length > 1 ? `\n${indent}` : "";

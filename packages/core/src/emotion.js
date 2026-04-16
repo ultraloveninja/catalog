@@ -1,10 +1,14 @@
-import createEmotion from "create-emotion";
+import createEmotion from "@emotion/css/create-instance";
 
 const context = typeof global !== "undefined" ? global : {};
 
 if (context.__CATALOG_EMOTION_INSTANCE__ === undefined) {
-  context.__CATALOG_EMOTION_INSTANCE__ = {};
+  context.__CATALOG_EMOTION_INSTANCE__ = createEmotion({
+    key: "catalog"
+  });
 }
+
+const emotion = context.__CATALOG_EMOTION_INSTANCE__;
 
 export const {
   flush,
@@ -16,8 +20,7 @@ export const {
   keyframes,
   css,
   sheet,
-  caches
-} = createEmotion(context.__CATALOG_EMOTION_INSTANCE__, {
-  // The key option is required when there will be multiple instances in a single app
-  key: "catalog"
-});
+  cache
+} = emotion;
+
+export const caches = { catalog: cache };

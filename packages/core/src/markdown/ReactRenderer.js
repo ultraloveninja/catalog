@@ -24,10 +24,26 @@ export default class ReactRenderer {
   getKey() {
     return this.itemsRenderedCount++;
   }
+  text(t) {
+    return t;
+  }
+  checkbox(checked) {
+    return (
+      <input
+        key={this.getKey()}
+        type="checkbox"
+        checked={!!checked}
+        readOnly
+        disabled
+        aria-disabled="true"
+      />
+    );
+  }
   code(code, lang /* , escaped*/) {
+    const cls = lang && String(lang).trim() ? lang : undefined;
     return (
       <pre key={this.getKey()}>
-        <code className={lang}>{code}</code>
+        <code className={cls}>{code}</code>
       </pre>
     );
   }
@@ -36,7 +52,7 @@ export default class ReactRenderer {
   }
   heading(text, level, raw) {
     const slug = this.slugger.slug(raw);
-    return <Heading text={text} level={level} slug={slug} />;
+    return <Heading key={this.getKey()} text={text} level={level} slug={slug} />;
   }
   hr() {
     return <Hr key={this.getKey()} />;
@@ -52,7 +68,7 @@ export default class ReactRenderer {
       <UnorderedList key={key}>{body}</UnorderedList>
     );
   }
-  listitem(text) {
+  listitem(text /* , task, checked */) {
     return <ListItem key={this.getKey()}>{text}</ListItem>;
   }
   paragraph(text) {
@@ -94,11 +110,14 @@ export default class ReactRenderer {
   image(href, title, alt) {
     return <Image src={href} title={title} alt={alt} key={this.getKey()} />;
   }
-  html(html) {
+  html(htmlInput /* , block */) {
+    const raw = Array.isArray(htmlInput)
+      ? htmlInput.join("")
+      : String(htmlInput ?? "");
     return (
       <div
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: html.join("") }}
+         
+        dangerouslySetInnerHTML={{ __html: raw }}
         key={this.getKey()}
       />
     );

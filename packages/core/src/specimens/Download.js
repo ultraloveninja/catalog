@@ -93,8 +93,8 @@ class DownloadSpecimen extends React.Component {
     const {
       catalog,
       catalog: { theme },
-      title,
-      subtitle,
+      title = "",
+      subtitle = "",
       url,
       filename
     } = this.props;
@@ -120,12 +120,6 @@ class DownloadSpecimen extends React.Component {
     );
   }
 }
-
-DownloadSpecimen.defaultProps = {
-  title: "",
-  subtitle: "",
-  theme: {}
-};
 
 DownloadSpecimen.propTypes = {
   catalog: catalogShape.isRequired,

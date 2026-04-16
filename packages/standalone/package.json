@@ -1,18 +1,26 @@
 {
   "name": "@catalog/standalone",
   "version": "4.0.1-canary.2",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "description": "Standalone version of Catalog",
   "homepage": "https://www.catalog.style/",
   "bugs": "https://github.com/interactivethings/catalog/issues",
   "main": "catalog.min.js",
   "unpkg": "catalog.min.js",
+  "exports": {
+    ".": "./catalog.min.js",
+    "./development": "./catalog.development.js",
+    "./package.json": "./package.json"
+  },
   "files": [
     "catalog.development.js",
     "catalog.min.js"
   ],
   "scripts": {
-    "watch": "rollup -c rollup.config.js --watch",
-    "build": "rollup -c rollup.config.js"
+    "watch": "BROWSERSLIST_IGNORE_OLD_DATA=1 rollup -c rollup.config.js --bundleConfigAsCjs --watch",
+    "build": "BROWSERSLIST_IGNORE_OLD_DATA=1 rollup -c rollup.config.js --bundleConfigAsCjs"
   },
   "devDependencies": {
     "@catalog/core": "^4.0.1-canary.2"

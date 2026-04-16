@@ -5,12 +5,12 @@
       {
         "loose": true,
         "modules": false,
-        "targets": { "node": 6, "browsers": ["last 2 versions", "ie 11"] }
+        "bugfixes": true
       }
     ],
     "@babel/preset-react"
   ],
-  "plugins": [["emotion", { "autoLabel": true }]],
+  "plugins": [["@emotion/babel-plugin", { "autoLabel": "always" }]],
   "env": {
     "test": {
       "presets": [
@@ -21,7 +21,7 @@
         "@babel/preset-react",
         "@babel/preset-typescript"
       ],
-      "plugins": [["emotion", { "autoLabel": true }]]
+      "plugins": [["@emotion/babel-plugin", { "autoLabel": "always" }]]
     }
   }
 }

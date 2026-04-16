@@ -9,9 +9,9 @@ const input = `<ReactSpecimen>
 
 const output = `"use strict";
 
-React.createElement(ReactSpecimen, {
+/*#__PURE__*/React.createElement(ReactSpecimen, {
   sourceText: "<div>\\n  foo\\n</div>"
-}, React.createElement("div", null, "foo"));`;
+}, /*#__PURE__*/React.createElement("div", null, "foo"));`;
 
 test("Adds sourceText prop", () => {
   expect(

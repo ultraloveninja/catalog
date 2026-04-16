@@ -2,17 +2,15 @@
 
 ### 1. Install dependencies
 
-```
-npm ci
-```
-
-### 2. Bootstrap packages
-
-This will install all dependencies in the individual packages and link packages with each other.
+From the repository root (Yarn workspaces link packages automatically):
 
 ```
-./node_modules/.bin/lerna bootstrap
+yarn install
 ```
+
+### 2. (Optional) Use the `bootstrap` script
+
+`yarn bootstrap` is an alias for `yarn install` and exists for muscle memory from older Lerna-based setups.
 
 ### 3. Start the tests in watch mode
 
@@ -22,11 +20,13 @@ This will install all dependencies in the individual packages and link packages 
 
 ### 4. Start the docs catalog
 
-This will start up the local catalog that is stored in the `docs/` folder. Use it to test the changes you do to the core package.
+This starts Rollup in watch mode for all packages **and** the local Catalog site in the `docs/` folder. Use it to exercise changes to core, the CLI, or documentation.
 
 ```
-make
+yarn dev
 ```
+
+(`make` at the repo root runs `yarn install && yarn dev` if you prefer the Makefile shortcut.)
 
 # Release
 

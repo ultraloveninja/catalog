@@ -1,39 +1,71 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Catalog markdown page template literal 1`] = `
-<Page>
-  
+{
+  "$$typeof": Symbol(react.transitional.element),
+  "_owner": null,
+  "_store": {},
+  "key": null,
+  "props": {
+    "children": [
+      "
 # This is a title
 
 A paragraph
 
+",
+      {
+        "$$typeof": Symbol(react.transitional.element),
+        "_owner": null,
+        "_store": {},
+        "key": null,
+        "props": {
+          "children": "# THIS IS A HINT
 
-  <SpecimenContainer>
-    # THIS IS A HINT
-
-Cool, eh?
-  </SpecimenContainer>
-  
-
-</Page>
+Cool, eh?",
+        },
+        "type": [Function],
+      },
+      "
+",
+    ],
+  },
+  "type": [Function],
+}
 `;
 
 exports[`Catalog markdown page template literal with arbitrary values 1`] = `
-<Page>
-  
+{
+  "$$typeof": Symbol(react.transitional.element),
+  "_owner": null,
+  "_store": {},
+  "key": null,
+  "props": {
+    "children": [
+      "
 # This is a title
 
 A paragraph 123
 
 ~~~
-
-  foo
-  bar
-  <div>
-    hello
-  </div>
-  
+",
+      "foo",
+      "bar",
+      {
+        "$$typeof": Symbol(react.transitional.element),
+        "_owner": null,
+        "_store": {},
+        "key": "hello",
+        "props": {
+          "children": "hello",
+        },
+        "type": "div",
+      },
+      "
 ~~~
-
-</Page>
+",
+    ],
+  },
+  "type": [Function],
+}
 `;

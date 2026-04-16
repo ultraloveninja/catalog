@@ -134,9 +134,4 @@ Menu.propTypes = {
   title: PropTypes.string
 };
 
-Menu.defaultProps = {
-  styles: [],
-  scripts: []
-};
-
 export default Menu;

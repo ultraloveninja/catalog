@@ -1,5 +1,3 @@
-import { exists } from "sander";
-
 import {
   resolveAppPath,
   resolveOwnPath,

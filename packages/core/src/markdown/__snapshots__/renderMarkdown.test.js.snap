@@ -1,117 +1,316 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Renders some Markdown 1`] = `
-Array [
-  <Heading
-    level={1}
-    slug="hello"
-    text={
-      Array [
+[
+  {
+    "$$typeof": Symbol(react.transitional.element),
+    "_owner": null,
+    "_store": {},
+    "key": "0",
+    "props": {
+      "level": 1,
+      "slug": "hello",
+      "text": [
         "Hello",
-      ]
-    }
-  />,
-  <Styled.p>
-    World
-  </Styled.p>,
-  "",
-  <Styled.ul>
-    <Styled.li>
-      One
-      <Styled.ul>
-        <Styled.li>
-          Two
-        </Styled.li>
-      </Styled.ul>
-    </Styled.li>
-    <Styled.li>
-      Three
-      
-    </Styled.li>
-  </Styled.ul>,
-  <Styled.p>
-    A 
-    <Link
-      title={null}
-      to="http://www.interactivethings.com/"
-    >
-      link
-    </Link>
-     and some 
-    <Styled.strong>
-      bold
-    </Styled.strong>
-     and 
-    <Styled.em>
-      italic
-    </Styled.em>
-     text. Blank links 
-    <Link
-      title={null}
-      to="mailto:foo@bar.com"
-    >
-      foo@bar.com
-    </Link>
-     
-    <Link
-      title={null}
-      to="https://foobar.com"
-    >
-      https://foobar.com
-    </Link>
-  </Styled.p>,
-  "",
-  <pre>
-    <code>
-      a code block
-    </code>
-  </pre>,
-  <Styled.p>
-    Inline 
-    <Styled.code>
-      code
-    </Styled.code>
-  </Styled.p>,
-  "",
-  <BlockQuote>
-    <Styled.p>
-      Block quotes rock 
-      <Styled.em>
-        another em style
-      </Styled.em>
-    </Styled.p>
-  </BlockQuote>,
+      ],
+    },
+    "type": [Function],
+  },
+  {
+    "$$typeof": Symbol(react.transitional.element),
+    "_owner": null,
+    "_store": {},
+    "key": "1",
+    "props": {
+      "children": [
+        "World",
+      ],
+    },
+    "type": [Function],
+  },
+  {
+    "$$typeof": Symbol(react.transitional.element),
+    "_owner": null,
+    "_store": {},
+    "key": "6",
+    "props": {
+      "children": [
+        {
+          "$$typeof": Symbol(react.transitional.element),
+          "_owner": null,
+          "_store": {},
+          "key": "4",
+          "props": {
+            "children": [
+              "One",
+              {
+                "$$typeof": Symbol(react.transitional.element),
+                "_owner": null,
+                "_store": {},
+                "key": "3",
+                "props": {
+                  "children": [
+                    {
+                      "$$typeof": Symbol(react.transitional.element),
+                      "_owner": null,
+                      "_store": {},
+                      "key": "2",
+                      "props": {
+                        "children": [
+                          "Two",
+                        ],
+                      },
+                      "type": [Function],
+                    },
+                  ],
+                },
+                "type": [Function],
+              },
+            ],
+          },
+          "type": [Function],
+        },
+        {
+          "$$typeof": Symbol(react.transitional.element),
+          "_owner": null,
+          "_store": {},
+          "key": "5",
+          "props": {
+            "children": [
+              "Three",
+            ],
+          },
+          "type": [Function],
+        },
+      ],
+    },
+    "type": [Function],
+  },
+  {
+    "$$typeof": Symbol(react.transitional.element),
+    "_owner": null,
+    "_store": {},
+    "key": "12",
+    "props": {
+      "children": [
+        "A ",
+        {
+          "$$typeof": Symbol(react.transitional.element),
+          "_owner": null,
+          "_store": {},
+          "key": "7",
+          "props": {
+            "children": [
+              "link",
+            ],
+            "title": null,
+            "to": "http://www.interactivethings.com/",
+          },
+          "type": [Function],
+        },
+        " and some ",
+        {
+          "$$typeof": Symbol(react.transitional.element),
+          "_owner": null,
+          "_store": {},
+          "key": "8",
+          "props": {
+            "children": [
+              "bold",
+            ],
+          },
+          "type": [Function],
+        },
+        " and ",
+        {
+          "$$typeof": Symbol(react.transitional.element),
+          "_owner": null,
+          "_store": {},
+          "key": "9",
+          "props": {
+            "children": [
+              "italic",
+            ],
+          },
+          "type": [Function],
+        },
+        " text. Blank links ",
+        {
+          "$$typeof": Symbol(react.transitional.element),
+          "_owner": null,
+          "_store": {},
+          "key": "10",
+          "props": {
+            "children": [
+              "foo@bar.com",
+            ],
+            "title": undefined,
+            "to": "mailto:foo@bar.com",
+          },
+          "type": [Function],
+        },
+        " ",
+        {
+          "$$typeof": Symbol(react.transitional.element),
+          "_owner": null,
+          "_store": {},
+          "key": "11",
+          "props": {
+            "children": [
+              "https://foobar.com",
+            ],
+            "title": undefined,
+            "to": "https://foobar.com",
+          },
+          "type": [Function],
+        },
+      ],
+    },
+    "type": [Function],
+  },
+  {
+    "$$typeof": Symbol(react.transitional.element),
+    "_owner": null,
+    "_store": {},
+    "key": "13",
+    "props": {
+      "children": {
+        "$$typeof": Symbol(react.transitional.element),
+        "_owner": null,
+        "_store": {},
+        "key": null,
+        "props": {
+          "children": "a code block",
+          "className": undefined,
+        },
+        "type": "code",
+      },
+    },
+    "type": "pre",
+  },
+  {
+    "$$typeof": Symbol(react.transitional.element),
+    "_owner": null,
+    "_store": {},
+    "key": "15",
+    "props": {
+      "children": [
+        "Inline ",
+        {
+          "$$typeof": Symbol(react.transitional.element),
+          "_owner": null,
+          "_store": {},
+          "key": "14",
+          "props": {
+            "children": "code",
+          },
+          "type": [Function],
+        },
+      ],
+    },
+    "type": [Function],
+  },
+  {
+    "$$typeof": Symbol(react.transitional.element),
+    "_owner": null,
+    "_store": {},
+    "key": "18",
+    "props": {
+      "children": [
+        {
+          "$$typeof": Symbol(react.transitional.element),
+          "_owner": null,
+          "_store": {},
+          "key": "17",
+          "props": {
+            "children": [
+              "Block quotes rock ",
+              {
+                "$$typeof": Symbol(react.transitional.element),
+                "_owner": null,
+                "_store": {},
+                "key": "16",
+                "props": {
+                  "children": [
+                    "another em style",
+                  ],
+                },
+                "type": [Function],
+              },
+            ],
+          },
+          "type": [Function],
+        },
+      ],
+    },
+    "type": [Function],
+  },
 ]
 `;
 
 exports[`Renders some Markdown with custom renderers 1`] = `
-Array [
-  <Heading
-    level={1}
-    slug="hello"
-    text={
-      Array [
+[
+  {
+    "$$typeof": Symbol(react.transitional.element),
+    "_owner": null,
+    "_store": {},
+    "key": "0",
+    "props": {
+      "level": 1,
+      "slug": "hello",
+      "text": [
         "Hello",
-      ]
-    }
-  />,
+      ],
+    },
+    "type": [Function],
+  },
   "HELLO PARAGRAPH",
-  "",
-  <Styled.ul>
-    HELLO LIST ITEM
-    HELLO LIST ITEM
-  </Styled.ul>,
+  {
+    "$$typeof": Symbol(react.transitional.element),
+    "_owner": null,
+    "_store": {},
+    "key": "2",
+    "props": {
+      "children": [
+        "HELLO LIST ITEM",
+        "HELLO LIST ITEM",
+      ],
+    },
+    "type": [Function],
+  },
   "HELLO PARAGRAPH",
-  "",
-  <pre>
-    <code>
-      a code block
-    </code>
-  </pre>,
+  {
+    "$$typeof": Symbol(react.transitional.element),
+    "_owner": null,
+    "_store": {},
+    "key": "8",
+    "props": {
+      "children": {
+        "$$typeof": Symbol(react.transitional.element),
+        "_owner": null,
+        "_store": {},
+        "key": null,
+        "props": {
+          "children": "a code block",
+          "className": undefined,
+        },
+        "type": "code",
+      },
+    },
+    "type": "pre",
+  },
   "HELLO PARAGRAPH",
-  "",
-  <BlockQuote>
-    HELLO PARAGRAPH
-  </BlockQuote>,
+  {
+    "$$typeof": Symbol(react.transitional.element),
+    "_owner": null,
+    "_store": {},
+    "key": "11",
+    "props": {
+      "children": [
+        "HELLO PARAGRAPH",
+      ],
+    },
+    "type": [Function],
+  },
 ]
 `;

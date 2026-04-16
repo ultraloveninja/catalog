@@ -72,35 +72,35 @@ const mockCatalogConfigWithHashHistory = {
 test("Hash history: Parse path", () => {
   expect(parsePath("/foo/bar", mockCatalogConfigWithHashHistory)).toEqual({
     pathname: "/foo/bar",
-    query: {}
+    search: ""
   });
 });
 
 test("Hash history: Parse path with trailing slash", () => {
   expect(parsePath("/foo/bar/", mockCatalogConfigWithHashHistory)).toEqual({
     pathname: "/foo/bar",
-    query: {}
+    search: ""
   });
 });
 
 test("Hash history: Parse path with hash", () => {
   expect(parsePath("/foo/bar#baz", mockCatalogConfigWithHashHistory)).toEqual({
     pathname: "/foo/bar",
-    query: { a: "baz" }
+    search: "?a=baz"
   });
 });
 
 test("Hash history: Parse path with only hash (pathname is current page)", () => {
   expect(parsePath("#baz", mockCatalogConfigWithHashHistory)).toEqual({
     pathname: "/foo/bar",
-    query: { a: "baz" }
+    search: "?a=baz"
   });
 });
 
 test("Hash history: Do not parse URL", () => {
   expect(
     parsePath("https://example.com/foo.png", mockCatalogConfigWithHashHistory)
-  ).toEqual({ pathname: "https://example.com/foo.png", query: {} });
+  ).toEqual({ pathname: "https://example.com/foo.png", search: "" });
 });
 
 // Internal paths

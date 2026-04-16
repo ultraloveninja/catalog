@@ -6,7 +6,7 @@ This is for the adventurous who don't shy away from configuring webpack! Use thi
 - need to use specific webpack loaders (e.g. for TypeScript) or Babel transforms
 
 ```hint|directive
-You _don't_ need a custom setup if you're using Catalog on its own or in combination with [Create React App](https://github.com/facebookincubator/create-react-app) or [next.js](https://github.com/zeit/next.js). Use [Create Catalog](/installation/create-catalog) instead.
+You _don't_ need a custom setup if you're using Catalog on its own with the default **`@catalog/cli`** dev server (see [Getting started](/installation/getting-started)). If Catalog lives inside a larger app (for example [Create React App](https://github.com/facebook/create-react-app) or [Next.js](https://nextjs.org/)), you usually still use the **`catalog/`** folder plus **`catalog-start`** / **`catalog-build`**, or you wire Catalog into your own bundler using this guide when you need full control.
 ```
 
 ## `catalog.config.js`

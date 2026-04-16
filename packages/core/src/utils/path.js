@@ -11,13 +11,14 @@ const absoluteUrlRe = /^[a-z][a-z0-9+.-]*:/;
 export const parsePath = (path, options) => {
   let pathname = path;
   let hash = "";
-  let anchor = null;
+  let search = "";
 
   if (!absoluteUrlRe.test(pathname)) {
     const hashIndex = pathname.indexOf("#");
     if (hashIndex !== -1) {
       hash = pathname.substr(hashIndex);
-      anchor = pathname.substr(hashIndex + 1);
+      const anchor = pathname.substr(hashIndex + 1);
+      search = anchor ? `?a=${encodeURIComponent(anchor)}` : "";
       pathname = pathname.substr(0, hashIndex);
     }
 
@@ -38,7 +39,7 @@ export const parsePath = (path, options) => {
 
   return options.useBrowserHistory
     ? { pathname, hash: hash === "#" ? "" : hash }
-    : { pathname, query: anchor ? { a: anchor } : {} };
+    : { pathname, search };
 };
 
 export const getPublicPath = (path, options) => {

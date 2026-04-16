@@ -7,6 +7,7 @@ import { useCatalog } from "../CatalogRuntimeContext";
 
 const HeadingWithLink = ({ level, text, slug, catalog: { theme } }) => {
   const tag = "h" + level;
+  const content = React.Children.toArray(text);
 
   const linkStyle = css({ display: "none" });
 
@@ -26,9 +27,9 @@ const HeadingWithLink = ({ level, text, slug, catalog: { theme } }) => {
   return React.createElement(
     tag,
     { id: slug, className: headingStyle },
-    text,
+    ...content,
     " ",
-    <span className={linkStyle}>
+    <span key="heading-link" className={linkStyle}>
       <HeadingLink slug={slug} />
     </span>
   );
@@ -36,7 +37,7 @@ const HeadingWithLink = ({ level, text, slug, catalog: { theme } }) => {
 
 const PlainHeading = ({ level, text }) => {
   const tag = "h" + level;
-  return React.createElement(tag, null, text);
+  return React.createElement(tag, null, ...React.Children.toArray(text));
 };
 
 const Heading = ({ level, text, slug }) => {

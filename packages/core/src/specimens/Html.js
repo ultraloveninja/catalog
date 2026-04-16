@@ -188,7 +188,7 @@ class Html extends React.Component {
       </div>
     ) : null;
 
-    // eslint-disable-next-line
+     
     const content = <div dangerouslySetInnerHTML={{ __html: children }} />;
 
     if (options.responsive && !validSizes) {
