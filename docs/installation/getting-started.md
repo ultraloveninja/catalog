@@ -5,7 +5,9 @@ You need **[Node.js](https://nodejs.org/) 18 or newer** and a package manager (*
 ```
 
 ```hint|neutral
-On the public npm registry, **`catalog`** and **`@catalog/cli`** still use the **`canary`** dist-tag for the **v4** line. Plain **`yarn add catalog`** resolves to **`latest`**, which is the old **3.x** tree (deprecated) and **`yarn add @catalog/cli`** can resolve to a broken **0.x** release. Install with **`@canary`** (or pin **`catalog@4.0.1-canary.2`** and **`@catalog/cli@4.0.1-canary.2`**) until **`latest`** is moved to v4.
+On the public npm registry, **`catalog`** and **`@catalog/cli`** still use the **`canary`** dist-tag for the **v4** line. Plain **`yarn add catalog`** resolves to **`latest`**, which is the old **3.x** tree (deprecated) and **`yarn add @catalog/cli`** can resolve to a broken **0.x** release. Install with **`@canary`** (or pin a **`4.0.x-canary.*`** version) until **`latest`** is moved to v4.
+
+A given **`canary`** tarball only updates when a maintainer **publishes** a new version. Features merged on GitHub (for example **`catalog-init`**) are not available from **`yarn add @catalog/cli@canary`** until that publish happens. Until then, use **`yarn link @catalog/cli`** from a local clone after **`yarn build:lib`**, or a **`file:`** / **git** dependency on this repo.
 ```
 
 ## 1. Install packages
@@ -41,17 +43,23 @@ By default the CLI looks for a folder named **`catalog`** next to your **`packag
 
 From the project root, run **`catalog-init`** once. It copies the built-in **`setup-template`** into **`./catalog/`** (or pass another directory name as the first argument).
 
-```code
-yarn catalog-init
-```
+**Yarn v1 does not run dependency binaries when you type `yarn catalog-init`** — that looks for a **`scripts.catalog-init`** entry in **`package.json`**, which does not exist by default. Use one of these instead:
 
 ```code
 npx catalog-init
 ```
 
+```code
+./node_modules/.bin/catalog-init
+```
+
+Or add a script (see [§3](#3-run-the-dev-server)) and run **`yarn catalog:init`**.
+
+If your installed **`@catalog/cli`** predates the **`catalog-init`** publish, **`npx catalog-init`** will fail (binary missing). Use **`cp -R node_modules/@catalog/cli/setup-template/. catalog/`** or link a newer build from this repository.
+
 If **`index.html`** already exists there, pass **`--force`** to replace it with the template again.
 
-You can also run **`yarn catalog init`** or **`npx catalog init`** — the **`catalog`** binary forwards **`init`** to **`catalog-init`**.
+When the **`catalog`** binary on your **`PATH`** includes **`init`**, **`npx catalog init`** runs the same scaffold as **`catalog-init`** (it forwards to **`catalog-init`**).
 
 ### Manual copy (optional)
 
@@ -67,21 +75,17 @@ The same files live under **`node_modules/@catalog/cli/setup-template`** after i
 
 From the **project root** (where **`package.json`** lives), run **`catalog-start`** with the **path to your Catalog sources** (a directory that contains **`index.html`** and **`index.{js,ts,tsx}`**). If you omit it, the CLI defaults to **`catalog`**.
 
-### yarn
+Common options: **`--port`**, **`--host`**. Default port is **4000**.
 
-```code
-yarn catalog-start catalog
-```
-
-### npm
+### Without **`package.json`** scripts (npm / npx)
 
 ```code
 npx catalog-start catalog
 ```
 
-Common options: **`--port`**, **`--host`**. Default port is **4000**.
+### With **`package.json`** scripts (recommended for Yarn v1)
 
-Add **`package.json`** scripts so you do not rely on global installs:
+Yarn classic resolves **`yarn something`** to **`scripts.something`**, not to **`node_modules/.bin`**. Add scripts that call the binaries:
 
 ```code|lang-json
 {
@@ -96,10 +100,11 @@ Add **`package.json`** scripts so you do not rely on global installs:
 Then:
 
 ```code
+yarn catalog:init
 yarn catalog:start
 ```
 
-You do **not** need **`npm install -g`** for normal use. Keeping **`@catalog/cli`** in **`devDependencies`** and invoking **`catalog-start`** / **`catalog-build`** via **`yarn`** / **`npx`** is enough.
+You do **not** need **`npm install -g`** for normal use. Keeping **`@catalog/cli`** in **`devDependencies`** and invoking the binaries via **`npx`** or **`package.json`** scripts is enough.
 
 ### One-off run without saving the CLI
 
@@ -112,8 +117,10 @@ npx --yes -p @catalog/cli catalog-start catalog
 ## 4. Production build
 
 ```code
-yarn catalog-build catalog
+npx catalog-build catalog
 ```
+
+Or **`yarn catalog:build`** if you added the script in [§3](#3-run-the-dev-server).
 
 Output defaults to **`catalog/build`** (override with **`--out`**). Set **`--public-url`** if assets are served from a subpath (see the [configuration](/configuration) docs).
 
