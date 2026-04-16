@@ -18,7 +18,8 @@
   "bin": {
     "catalog": "dist/bin/catalog.js",
     "catalog-start": "dist/bin/catalog-start.js",
-    "catalog-build": "dist/bin/catalog-build.js"
+    "catalog-build": "dist/bin/catalog-build.js",
+    "catalog-init": "dist/bin/catalog-init.js"
   },
   "exports": {
     "./package.json": "./package.json"

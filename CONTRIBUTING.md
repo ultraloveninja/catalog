@@ -32,7 +32,13 @@ yarn dev
 
 Releasing is done manually. We currently publish two kinds of releases: canary (alpha) and latest (stable, production-ready).
 
-TODO: The release process should eventually be automated through travis-ci.
+### How the npm registry “catches up”
+
+**GitHub and npm are separate.** Pushing commits to a branch does **not** change what **`yarn add @catalog/cli`** installs. A maintainer with **`npm publish`** rights (usually via **Lerna** from this repo) must publish a new version; only then does the registry serve new bits. Dist-tags such as **`canary`** or **`latest`** are updated at publish time.
+
+Forks without publish access can still consume the source via **`git`**, **`yarn link`**, or **`file:`** dependencies until a package owner publishes.
+
+TODO: The release process should eventually be automated through CI.
 
 ### Canary
 

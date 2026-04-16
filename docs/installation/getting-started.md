@@ -35,14 +35,33 @@ pnpm add -D @catalog/cli@canary
 
 ## 2. Add a `catalog` source directory
 
-By default the CLI looks for a folder named **`catalog`** next to your **`package.json`**. It must contain:
+By default the CLI looks for a folder named **`catalog`** next to your **`package.json`**. It must contain **`index.html`**, **`index.js`** (or **`.ts`** / **`.tsx`**), and optionally **`static/`**.
 
-- **`index.html`** — a shell page with a root element (for example `<div id="catalog"></div>`) and any CSS you need.
-- **`index.js`**, **`index.ts`**, or **`index.tsx`** — a small entry that imports **`Catalog`** from **`catalog`**, defines your **`pages`**, and mounts the app with **`react-dom/client`** (see the [React API](/guides/react) guide).
+### Scaffold with **`catalog-init`** (recommended)
 
-Optional: a **`static/`** subtree for assets served as-is.
+From the project root, run **`catalog-init`** once. It copies the built-in **`setup-template`** into **`./catalog/`** (or pass another directory name as the first argument).
 
-A minimal template ships with the CLI package as **`setup-template`** (under `node_modules/@catalog/cli/setup-template` after install). You can copy those files into **`catalog/`** and adjust them.
+```code
+yarn catalog-init
+```
+
+```code
+npx catalog-init
+```
+
+If **`index.html`** already exists there, pass **`--force`** to replace it with the template again.
+
+You can also run **`yarn catalog init`** or **`npx catalog init`** — the **`catalog`** binary forwards **`init`** to **`catalog-init`**.
+
+### Manual copy (optional)
+
+The same files live under **`node_modules/@catalog/cli/setup-template`** after install. You can **`cp -R`** that folder’s contents into **`catalog/`** instead of using **`catalog-init`**.
+
+### What you get
+
+- **`index.html`** — shell page with a root element (for example `<div id="catalog"></div>`).
+- **`index.js`** (or rename to **`.ts`** / **`.tsx`**) — entry that imports **`Catalog`** from **`catalog`**, defines **`pages`**, and mounts with **`react-dom/client`** (see the [React API](/guides/react) guide).
+- **`static/`** — sample assets (optional to extend).
 
 ## 3. Run the dev server
 
@@ -67,6 +86,7 @@ Add **`package.json`** scripts so you do not rely on global installs:
 ```code|lang-json
 {
   "scripts": {
+    "catalog:init": "catalog-init",
     "catalog:start": "catalog-start catalog",
     "catalog:build": "catalog-build catalog"
   }
@@ -99,7 +119,7 @@ Output defaults to **`catalog/build`** (override with **`--out`**). Set **`--pub
 
 ## 5. Optional: `catalog` meta-cli
 
-The **`catalog`** binary groups subcommands (**`start`**, **`build`**), for example **`catalog start`** when **`@catalog/cli`** is on your **`PATH`**. Many teams prefer the explicit **`catalog-start`** / **`catalog-build`** scripts above.
+The **`catalog`** binary lists subcommands (**`start`**, **`build`**, **`init`**). **`catalog init`** runs the same scaffold as **`catalog-init`**. Many teams still prefer explicit **`catalog-start`** / **`catalog-build`** / **`catalog-init`** scripts in **`package.json`**.
 
 ## Integrating with an existing React app
 

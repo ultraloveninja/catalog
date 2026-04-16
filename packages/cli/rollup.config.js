@@ -22,7 +22,8 @@ module.exports = {
   input: [
     path.resolve(__dirname, "src/bin/catalog.ts"),
     path.resolve(__dirname, "src/bin/catalog-start.ts"),
-    path.resolve(__dirname, "src/bin/catalog-build.ts")
+    path.resolve(__dirname, "src/bin/catalog-build.ts"),
+    path.resolve(__dirname, "src/bin/catalog-init.ts")
   ],
   external: id => externals.some(d => id.startsWith(d)),
   plugins: [
